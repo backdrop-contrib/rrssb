@@ -61,14 +61,36 @@ function drush_rrssb_plugin() {
   else {
     $path = 'sites/all/libraries';
   }
-
   $olddir = getcwd();
-  chdir($path);
+  if (file_exists($path)) {
+    chdir($path);
+    drush_log('Switched to Libraries directory');
+  }
+  else {
+    mkdir($path);
+    chdir($path);
+    drush_log('Created and moved to libraries');
+  }
+
   $filename = basename(RRSSB_LIBRARY_URI);
-  $dirname = basename(RRSSB_LIBRARY_URI, '.zip');
+  drush_log($filename);
+  $dirname = 'rrssb';
   // Remove any existing RRSSB plugin directory.
   if (is_dir($dirname)) {
     drush_log(dt('An existing version of the RRSSB library was overwritten at @path', array('@path' => $path)), 'notice');
+    $objects = scandir($dirname);
+    foreach ($objects as $object) {
+      if ($object != "." && $object != "..") {
+        if (filetype($dirname . "/" . $object) !== 'dir') {
+          unlink($dirname . "/" . $object);
+        }
+        else {
+          rmdir($dirname."/".$object);
+        }
+      }
+    }
+    reset($objects);
+    rmdir($dirname);
   }
   // Remove any existing RRSSB plugin zip archive.
   if (is_file($filename)) {
@@ -83,13 +105,17 @@ function drush_rrssb_plugin() {
     drush_shell_exec('unzip -qq -o ' . $filename);
     // Remove the zip archive
     drush_op('unlink', $filename);
+    drush_log('Unzipped the file.');
+  }
+  if (file_exists('rrssb-master')) {
+    rename('rrssb-master', 'rrssb');
   }
   // Set working directory back to the previous working directory.
   chdir($olddir);
   if (is_dir($path . '/' . $dirname)) {
-    drush_log(dt('Drush was unable to download the RRSSB library to @path', array('@path' => $path)), 'error');
+    drush_log(dt('The RRSSB library has been downloaded to @path', array('@path' => $path)), 'success');
   }
   else {
-    drush_log(dt('The RRSSB library has been downloaded to @path', array('@path' => $path)), 'success');
+    drush_log(dt('Drush was unable to download the RRSSB library to @path', array('@path' => $path)), 'error');
   }
 }
