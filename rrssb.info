@@ -4,5 +4,5 @@ core = 7.x
 package = RRSSB
 
 dependencies[] = libraries
-dependencies[] = variable
+dependencies[] = jquery_upate
 files[] = includes/rrssb.drush.inc
