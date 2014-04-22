@@ -216,6 +216,7 @@ function rrssb_form_node_form_alter(&$form, &$form_state) {
 function rrssb_node_view($node) {
   $rrssb = libraries_load('rrssb');
   drupal_add_css(libraries_get_path('rrssb') . '/css/rrssb.css');
+  drupal_add_css(drupal_get_path('module','rrssb') . '/css/rrssb-overrides.css');
   drupal_add_js(libraries_get_path('rrssb') . '/js/rrssb.min.js', array('scope' => 'footer'));
   if (variable_get('rrssb_' . $node->type) == 1) {
     $node->content['rrssb'] = array(
