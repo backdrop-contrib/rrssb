@@ -8,13 +8,31 @@
  * Implements hook_menu().
  */
 function rrssb_menu() {
-  $items[''] = array(
-
+  $items['admin/config/content/rrssb'] = array(
+    'title' => 'Ridiculously Responsive Social Sharing Buttons',
+    'description' => t('Configure the Ridiculously Responsive Social Sharing Buttons to select which social buttons you would like to enable.'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('rrssb_form'),
+    'access callback' => 'user_access',
+    'access arguments' => array('administer rrssb'),
+    'type' => MENU_NORMAL_ITEM,
   );
 
   return $items;
 }
 
+/**
+ * Implements hook_permission().
+ */
+function rrssb_permission() {
+  return array(
+    'administer rrssb' => array(
+      'title' => t('Administer RRSSB'),
+      'description' => t('Permission to allow user to configure the Ridiculously Responsive Social Share Buttons.'),
+      'restrict access' => TRUE,
+    ),
+  );
+}
 /**
  * Implements hook_block_info().
  */
@@ -40,6 +58,53 @@ function rrssb_block_view($delta = '') {
   }
   return $block;
 }
+
+/**
+ * Implements hook_form().
+ */
+function rrssb_form() {
+  $form['rrssb_chosen'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Which buttons would you like to enable?'),
+    '#options' => drupal_map_assoc(array(
+      'email',
+      'facebook',
+      'tumblr',
+      'linkedin',
+      'twitter',
+      'reddit',
+      'googleplus',
+      'youtube',
+      'pinterest',
+      'github',
+    )),
+    '#default_value' => variable_get('rrssb_chosen'),
+  );
+  $form['rrssb_youtube_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('YouTube Username'),
+    '#description' => t('Enter your YouTube username in order for the social button to link to your YouTube channel.'),
+    '#default_value' => variable_get('rrssb_youtube_username'),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="rrssb_chosen[youtube]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+  $form['rrssb_github_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Github Username'),
+    '#description' => t('Enter your Github username in order for the social button to link to your Github profile.'),
+    '#default_value' => variable_get('rrssb_github_username'),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="rrssb_chosen[github]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+  return system_settings_form($form);
+}
+
 /**
  * Implements hook_libraries_info().
  */
@@ -65,7 +130,7 @@ function rrssb_libraries_info() {
  * Sets the current URL to be the shareable url.
  */
 function rrssb_get_url() {
-  return "http" . (isset($_SERVER['HTTPS']) ? "s" : "") . "://" . "{$_SERVER['HTTP_HOST']}/{$_SERVER['REQUEST_URI']}";
+  return "http" . (isset($_SERVER['HTTPS']) ? "s" : "") . "://" . "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 }
 
 /**
@@ -164,13 +229,57 @@ function rrssb_get_buttons() {
                             </span>
                             <span class="text">pinterest</span>
                         </a>',
+    'tumblr' => '<a href="http://tumblr.com/share?s=&amp;v=3&t='. urlencode($my_title) . '&amp;u=' . urlencode($my_url) . '">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve"><path d="M18.02 21.842c-2.029 0.052-2.422-1.396-2.439-2.446v-7.294h4.729V7.874h-4.71V1.592c0 0-3.653 0-3.714 0 s-0.167 0.053-0.182 0.186c-0.218 1.935-1.144 5.33-4.988 6.688v3.637h2.927v7.677c0 2.8 1.7 6.7 7.3 6.6 c1.863-0.03 3.934-0.795 4.392-1.453l-1.22-3.539C19.595 21.6 18.7 21.8 18 21.842z"/></svg>
+                            </span>
+                            <span class="text">tumblr</span>
+                        </a>',
+    'reddit' => '<a href="http://www.reddit.com/submit?url=' . $my_url . '">
+                            <span class="icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve"><g><path d="M11.794 15.316c0-1.029-0.835-1.895-1.866-1.895c-1.03 0-1.893 0.865-1.893 1.895s0.863 1.9 1.9 1.9 C10.958 17.2 11.8 16.3 11.8 15.316z"/><path d="M18.1 13.422c-1.029 0-1.895 0.864-1.895 1.895c0 1 0.9 1.9 1.9 1.865c1.031 0 1.869-0.836 1.869-1.865 C19.969 14.3 19.1 13.4 18.1 13.422z"/><path d="M17.527 19.791c-0.678 0.678-1.826 1.006-3.514 1.006c-0.004 0-0.009 0-0.014 0c-0.004 0-0.01 0-0.015 0 c-1.686 0-2.834-0.328-3.51-1.005c-0.264-0.265-0.693-0.265-0.958 0c-0.264 0.265-0.264 0.7 0 1 c0.943 0.9 2.4 1.4 4.5 1.402c0.005 0 0 0 0 0c0.005 0 0 0 0 0c2.066 0 3.527-0.459 4.47-1.402 c0.265-0.264 0.265-0.693 0.002-0.958C18.221 19.5 17.8 19.5 17.5 19.791z"/><path d="M27.707 13.267c0-1.785-1.453-3.237-3.236-3.237c-0.793 0-1.518 0.287-2.082 0.761c-2.039-1.295-4.646-2.069-7.438-2.219 l1.483-4.691l4.062 0.956c0.071 1.4 1.3 2.6 2.7 2.555c1.488 0 2.695-1.208 2.695-2.695C25.881 3.2 24.7 2 23.2 2 c-1.059 0-1.979 0.616-2.42 1.508l-4.633-1.091c-0.344-0.081-0.693 0.118-0.803 0.455l-1.793 5.7 C10.548 8.6 7.7 9.4 5.6 10.75C5.006 10.3 4.3 10 3.5 10.029c-1.785 0-3.237 1.452-3.237 3.2 c0 1.1 0.6 2.1 1.4 2.69c-0.04 0.272-0.061 0.551-0.061 0.831c0 2.3 1.3 4.4 3.7 5.9 c2.299 1.5 5.3 2.3 8.6 2.325c3.228 0 6.271-0.825 8.571-2.325c2.387-1.56 3.7-3.66 3.7-5.917 c0-0.26-0.016-0.514-0.051-0.768C27.088 15.5 27.7 14.4 27.7 13.267z M23.186 3.355c0.74 0 1.3 0.6 1.3 1.3 c0 0.738-0.6 1.34-1.34 1.34s-1.342-0.602-1.342-1.34C21.844 4 22.4 3.4 23.2 3.355z M1.648 13.3 c0-1.038 0.844-1.882 1.882-1.882c0.31 0 0.6 0.1 0.9 0.209c-1.049 0.868-1.813 1.861-2.26 2.9 C1.832 14.2 1.6 13.8 1.6 13.267z M21.773 21.57c-2.082 1.357-4.863 2.105-7.831 2.105c-2.967 0-5.747-0.748-7.828-2.105 c-1.991-1.301-3.088-3-3.088-4.782c0-1.784 1.097-3.484 3.088-4.784c2.081-1.358 4.861-2.106 7.828-2.106 c2.967 0 5.7 0.7 7.8 2.106c1.99 1.3 3.1 3 3.1 4.784C24.859 18.6 23.8 20.3 21.8 21.57z M25.787 14.6 c-0.432-1.084-1.191-2.095-2.244-2.977c0.273-0.156 0.59-0.245 0.928-0.245c1.035 0 1.9 0.8 1.9 1.9 C26.354 13.8 26.1 14.3 25.8 14.605z"/></g></svg>
+                            </span>
+                            <span class="text">reddit</span>
+                        </a>',
+    'youtube' => '<a href="https://www.youtube.com/user/' . check_plain(variable_get('rrssb_youtube_username', '')) . '">
+                            <span class="icon">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
+                                    <path d="M27.688,8.512c0-2.268-1.825-4.093-4.106-4.093H4.389c-2.245,0-4.076,1.825-4.076,4.093v10.976 c0,2.268,1.825,4.093,4.076,4.093h19.192c2.274,0,4.106-1.825,4.106-4.093V8.512z M11.263,18.632V8.321l7.817,5.155L11.263,18.632z" />
+                                </svg>
+                            </span>
+                            <span class="text">youtube</span>
+                        </a>',
+    'github' => '<a href="https://github.com/'. check_plain(variable_get('rrssb_github_username', '')) . '">
+                            <span class="icon">
+                                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                                     width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
+                                <path d="M13.971,1.571c-7.031,0-12.734,5.702-12.734,12.74c0,5.621,3.636,10.392,8.717,12.083c0.637,0.129,0.869-0.277,0.869-0.615
+                                    c0-0.301-0.012-1.102-0.018-2.164c-3.542,0.77-4.29-1.707-4.29-1.707c-0.579-1.473-1.414-1.863-1.414-1.863
+                                    c-1.155-0.791,0.088-0.775,0.088-0.775c1.277,0.104,1.96,1.316,1.96,1.312c1.136,1.936,2.991,1.393,3.713,1.059
+                                    c0.116-0.822,0.445-1.383,0.81-1.703c-2.829-0.32-5.802-1.414-5.802-6.293c0-1.391,0.496-2.527,1.312-3.418
+                                    C7.05,9.905,6.612,8.61,7.305,6.856c0,0,1.069-0.342,3.508,1.306c1.016-0.282,2.105-0.424,3.188-0.429
+                                    c1.081,0,2.166,0.155,3.197,0.438c2.431-1.648,3.498-1.306,3.498-1.306c0.695,1.754,0.258,3.043,0.129,3.371
+                                    c0.816,0.902,1.315,2.037,1.315,3.43c0,4.892-2.978,5.968-5.814,6.285c0.458,0.387,0.876,1.16,0.876,2.357
+                                    c0,1.703-0.016,3.076-0.016,3.482c0,0.334,0.232,0.748,0.877,0.611c5.056-1.688,8.701-6.457,8.701-12.082
+                                    C26.708,7.262,21.012,1.563,13.971,1.571L13.971,1.571z"/>
+                                </svg>
+                            </span>
+                            <span class="text">github</span>
+                        </a>',
   );
   $items = array();
-  foreach ($links as $key => $value) {
-    $items[] = array(
-      'data' => $value,
-      'class' => array($key), // value for 'class' key MUST be an (indexed) array. Using a string value like '2 3 4' produces an error
-    );
+  $defaults = array('email', 'facebook', 'linkedin', 'twitter', 'googleplus', 'pinterest');
+  $chosen = variable_get('rrssb_chosen', $defaults);
+  foreach ($chosen as $key => $value) {
+    if ($value) {
+      $items[] = array(
+        'data' => $links[$value],
+        'class' => array($key),
+      );
+    }
+    else {
+      continue;
+    }
   }
   return theme_item_list(array('items' => $items, 'title' => '', 'type' => $type, 'attributes' => $attributes));
 }
@@ -214,31 +323,6 @@ function rrssb_node_prepare($node) {
   }
 }
 
-
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function rrssb_form_node_form_alter(&$form, &$form_state) {
-//  $form['rrssb'] = array(
-//    '#type' => 'fieldset',
-//    '#title' => t('Ridiculously Respnosive Social Share Buttons'),
-//    '#collapsible' => TRUE,
-//    '#group' => 'additional_settings',
-//    '#weight' => 20,
-//    '#attributes' => array(
-//      'class' => array('rrssb-node-type-settings-form'),
-//    ),
-//    '#access' => user_access('administer nodes'),
-//  );
-//  $form['rrssb']['show'] = array(
-//    '#type' => 'checkbox',
-//    '#title' => t('Show the social buttons?'),
-//    '#default_value' => variable_get("rrssb_{$form['#node_type']->type}", 1),
-//  );
-//  $form['#submit'][] = 'rrssb_node_callback';
-}
-
 /**
  * Custom handler to save rrssb info for individual nodes.
  */
@@ -249,9 +333,6 @@ function rrssb_node_callback($form, &$form_state) {
  * Implements hook_node_view().
  */
 function rrssb_node_view($node, $view_mode, $langcode) {
-//  if ($node) {
-////    dsm($node);
-//  }
   drupal_add_css(libraries_get_path('rrssb') . '/css/rrssb.css');
   drupal_add_css(drupal_get_path('module','rrssb') . '/css/rrssb-overrides.css');
   drupal_add_js(libraries_get_path('rrssb') . '/js/rrssb.min.js', array('scope' => 'footer'));
