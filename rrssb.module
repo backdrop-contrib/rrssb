@@ -54,6 +54,16 @@ function rrssb_block_view($delta = '') {
       $block['subject'] = t('Share this content.');
       $block['content'] = array(
         '#markup' => rrssb_get_buttons(),
+        '#attached' => array(
+          'css' => array(
+            drupal_add_css(libraries_get_path('rrssb') . '/css/rrssb.css'),
+            drupal_add_css(drupal_get_path('module','rrssb') . '/css/rrssb-overrides.css'),
+
+          ),
+          'js' => array(
+            drupal_add_js(libraries_get_path('rrssb') . '/js/rrssb.min.js', array('scope' => 'footer')),
+          ),
+        ),
       );
   }
   return $block;
