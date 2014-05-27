@@ -56,12 +56,12 @@ function rrssb_block_view($delta = '') {
         '#markup' => rrssb_get_buttons(),
         '#attached' => array(
           'css' => array(
-            drupal_add_css(libraries_get_path('rrssb') . '/css/rrssb.css'),
-            drupal_add_css(drupal_get_path('module','rrssb') . '/css/rrssb-overrides.css'),
+            libraries_get_path('rrssb') . '/css/rrssb.css',
+            drupal_get_path('module','rrssb') . '/css/rrssb-overrides.css',
 
           ),
           'js' => array(
-            drupal_add_js(libraries_get_path('rrssb') . '/js/rrssb.min.js', array('scope' => 'footer')),
+            libraries_get_path('rrssb') . '/js/rrssb.min.js',
           ),
         ),
       );
