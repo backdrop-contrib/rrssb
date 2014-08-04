@@ -325,7 +325,7 @@ function rrssb_node_type_callback($form, &$form_state) {
  */
 function rrssb_node_prepare($node) {
   if (!isset($node->rrssb)) {
-    $node->rrssb = variable_get("rrssb_{$node->type}", 1);
+    $node->rrssb = variable_get("rrssb_{$node->type}", 0);
   }
 }
 
