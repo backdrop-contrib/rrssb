@@ -296,7 +296,7 @@ function rrssb_get_buttons() {
 function rrssb_form_node_type_form_alter(&$form, &$form_state) {
   $form['rrssb'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Ridiculously Respnosive Social Share Buttons'),
+    '#title' => t('Ridiculously Responsive Social Share Buttons'),
     '#collapsible' => TRUE,
     '#group' => 'additional_settings',
     '#weight' => 20,
