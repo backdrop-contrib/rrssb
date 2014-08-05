@@ -10,7 +10,7 @@
 function rrssb_menu() {
   $items['admin/config/content/rrssb'] = array(
     'title' => 'Ridiculously Responsive Social Sharing Buttons',
-    'description' => t('Configure the Ridiculously Responsive Social Sharing Buttons to select which social buttons you would like to enable.'),
+    'description' => 'Configure the Ridiculously Responsive Social Sharing Buttons to select which social buttons you would like to enable.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('rrssb_form'),
     'access callback' => 'user_access',
@@ -150,6 +150,8 @@ function rrssb_get_buttons() {
   );
   $my_url = check_plain(rrssb_get_url());
   $my_title = check_plain(rrssb_get_title());
+  $logo = theme_get_setting('logo');
+  dsm($logo);
   $links = array(
     'email' => '<a href="mailto:?subject=' . urlencode($my_title) . '&amp;body='. urlencode($my_url) .'" class="popup">
                             <span class="icon">
