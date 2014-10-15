@@ -152,7 +152,7 @@ function rrssb_get_title() {
  * @return string
  *   A string of markup for the list of buttons.
  */
-function rrssb_get_buttons($title = NULL, $url = NULL) {
+function rrssb_get_buttons($title = NULL, $url = NULL, $image = NULL) {
   $type = 'ul';
   $attributes = array(
     'class' => array('rrssb-buttons', 'clearfix'),
@@ -169,10 +169,15 @@ function rrssb_get_buttons($title = NULL, $url = NULL) {
   else {
     $my_title = check_plain($title);
   }
-  // Get the site logo as the default pinterest image.
-  $logo = theme_get_setting('logo');
-  if (!isset($logo)) {
-    $logo = 'https://www.drupal.org/files/druplicon.large_.png';
+  if (!image) {
+    // Get the site logo as the default pinterest image.
+    $logo = theme_get_setting('logo');
+    if (!isset($logo)) {
+      $logo = 'https://www.drupal.org/files/druplicon.large_.png';
+    }
+  }
+  else {
+    $logo = check_plain($image);
   }
   $links = array(
     'email' => '<a href="mailto:?subject=' . urlencode($my_title) . '&amp;body='. urlencode($my_url) .'" class="popup">
