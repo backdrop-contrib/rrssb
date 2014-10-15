@@ -1,0 +1,47 @@
+<?php
+/**
+ * @file
+ * Views integration for RRSSB.
+ */
+
+/**
+ * Implements hook_views_data().
+ */
+function rrssb_views_data() {
+  $data['rrssb']['list'] = array(
+    'title' => t('Share Buttons'),
+    'help' => t('The Ridiculously Responsive Social Share Buttons.'),
+    'field' => array(
+      'handler' => 'rrssb_handler_field_list',
+      'click sortable' => FALSE,
+    ),
+  );
+
+  return $data;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function rrssb_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'rrssb'),
+  );
+}
+
+/**
+ * Implements hook_views_handlers().
+ */
+function rrssb_views_handlers() {
+  return array(
+    'info' => array(
+      'path' => drupal_get_path('module', 'rrssb') . '/handlers',
+    ),
+    'handlers' => array(
+      'rrssb_handler_field_list' => array(
+        'parent' => 'views_handler_field',
+      ),
+    ),
+  );
+}
