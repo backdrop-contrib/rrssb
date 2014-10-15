@@ -143,14 +143,32 @@ function rrssb_get_title() {
 }
 /**
  * Returns an html list of the themed links with urls.
+ *
+ * @param string $title
+ *   The title of the page that you wish to share, default is grab the current.
+ * @param string $url
+ *   The url of the page that you wish to share, default is grab the current.
+ *
+ * @return string
+ *   A string of markup for the list of buttons.
  */
-function rrssb_get_buttons() {
+function rrssb_get_buttons($title = NULL, $url = NULL) {
   $type = 'ul';
   $attributes = array(
     'class' => array('rrssb-buttons', 'clearfix'),
   );
-  $my_url = check_plain(rrssb_get_url());
-  $my_title = check_plain(rrssb_get_title());
+  if (!$url) {
+    $my_url = check_plain(rrssb_get_url());
+  }
+  else {
+    $my_url = check_plain($url);
+  }
+  if (!$title) {
+    $my_title = check_plain(rrssb_get_title());
+  }
+  else {
+    $my_title = check_plain($title);
+  }
   // Get the site logo as the default pinterest image.
   $logo = theme_get_setting('logo');
   if (!isset($logo)) {
