@@ -113,7 +113,7 @@ function rrssb_libraries_info() {
   $libraries['rrssb'] = array(
     'name' => 'Ridiculously Responsive Social Share Buttons',
     'vendor url' => 'http://kurtnoble.com/labs/rrssb/',
-    'download url' => 'https://github.com/kni-labs/rrssb/archive/master.zip',
+    'download url' => 'https://github.com/kni-labs/rrssb/archive/v1.6.5.zip',
     'files' => array(
       'js' => array(
         'js/rssb.min.js',
@@ -169,7 +169,7 @@ function rrssb_get_buttons($title = NULL, $url = NULL, $image = NULL) {
   else {
     $my_title = check_plain($title);
   }
-  if (!image) {
+  if (!$image) {
     // Get the site logo as the default pinterest image.
     $logo = theme_get_setting('logo');
     if (!isset($logo)) {
