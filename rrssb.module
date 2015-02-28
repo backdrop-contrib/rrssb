@@ -331,6 +331,10 @@ function rrssb_get_buttons($title = NULL, $url = NULL, $image = NULL) {
   drupal_add_css(drupal_get_path('module','rrssb') . '/css/rrssb-overrides.css');
   drupal_add_js(libraries_get_path('rrssb') . '/js/rrssb.min.js', array('scope' => 'footer'));
 
+  // Allow an alter of the rrssb items.
+  drupal_alter('rrssb_items', $items);
+
+  // Pass the items through the theme system as an "item list."
   return theme('item_list', array('items' => $items, 'title' => '', 'type' => $type, 'attributes' => $attributes));
 }
 
