@@ -366,6 +366,7 @@ function rrssb_form_node_type_form_alter(&$form, &$form_state) {
  */
 function rrssb_node_type_callback($form, &$form_state) {
   variable_set('rrssb_' . $form_state['values']['type'], $form_state['complete form']['rrssb']['show']['#value']);
+  field_info_cache_clear();
 }
 
 /**
@@ -399,13 +400,15 @@ function rrssb_node_view($node, $view_mode, $langcode) {
  * Implements hook_field_extra_fields().
  */
 function rrssb_field_extra_fields() {
-  $extra['node']['article']['display'] = array(
-    'rrssb' => array(
-      'label' => t('Ridiculously Responsive Social Share Buttons'),
-      'description' => t('A fake field to display Social buttons'),
-      'weight' => 10,
-    ),
-  );
+  foreach (node_type_get_types() as $node_type) {
+    if (variable_get('rrssb_' . $node_type->type) == 1) {
+      $extra['node'][$node_type->type]['display']['rrssb'] = array(
+        'label' => t('Ridiculously Responsive Social Share Buttons'),
+        'description' => t('A fake field to display Social buttons'),
+        'weight' => 10,
+      );
+    }
+  }
 
   return $extra;
 }
