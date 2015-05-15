@@ -63,6 +63,14 @@ function rrssb_block_view($delta = '') {
  * Implements hook_form().
  */
 function rrssb_form() {
+  $defaults = array(
+    'email' => 'email',
+    'facebook' => 'facebook',
+    'linkedin' => 'linkedin',
+    'twitter' => 'twitter',
+    'googleplus' => 'googleplus',
+    'pinterest' => 'pinterest',
+  );
   $form['rrssb_chosen'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Which buttons would you like to enable?'),
@@ -79,7 +87,7 @@ function rrssb_form() {
       'pocket',
       'github',
     )),
-    '#default_value' => variable_get('rrssb_chosen'),
+    '#default_value' => variable_get('rrssb_chosen', $defaults),
   );
   $form['rrssb_youtube_username'] = array(
     '#type' => 'textfield',
