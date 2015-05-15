@@ -364,7 +364,7 @@ function rrssb_form_node_type_form_alter(&$form, &$form_state) {
   $form['rrssb']['show'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show the social buttons?'),
-    '#default_value' => variable_get('rrssb_' . $form['#node_type']->type, 1),
+    '#default_value' => variable_get('rrssb_' . $form['#node_type']->type, 0),
   );
   $form['#submit'][] = 'rrssb_node_type_callback';
 }
