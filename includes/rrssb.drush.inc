@@ -40,12 +40,12 @@ function rrssb_drush_help($section) {
 /**
  * Implements drush_MODULE_post_pm_enable().
  */
- function drush_rrssb_post_pm_enable() {
-   $modules = func_get_args();
-   if (in_array('rrssb', $modules)) {
-     drush_rrssb_plugin();
-   }
- }
+function drush_rrssb_post_pm_enable() {
+  $modules = func_get_args();
+  if (in_array('rrssb', $modules)) {
+    drush_rrssb_plugin();
+  }
+}
 
 /**
  * Callback for the drush command to download the RRSSB library.
@@ -85,7 +85,7 @@ function drush_rrssb_plugin() {
           unlink($dirname . "/" . $object);
         }
         else {
-          rmdir($dirname."/".$object);
+          rmdir($dirname . "/" . $object);
         }
       }
     }
@@ -103,7 +103,7 @@ function drush_rrssb_plugin() {
   if (is_file($filename)) {
     // Decompress the zip archive.
     drush_shell_exec('unzip -qq -o ' . $filename);
-    // Remove the zip archive
+    // Remove the zip archive.
     drush_op('unlink', $filename);
     drush_log('Unzipped the file.');
   }
