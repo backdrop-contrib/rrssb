@@ -39,6 +39,7 @@ function rrssb_permission() {
 function rrssb_block_info() {
   $blocks['rrssb'] = array(
     'info' => t('Ridiculously Responsive Social Share Buttons'),
+    'cache' => DRUPAL_CACHE_PER_PAGE,
   );
 
   return $blocks;
