@@ -347,7 +347,7 @@ function rrssb_get_buttons($node = NULL, $image = NULL) {
   // Pass the items through the theme system as an "item list."
   $output = theme('item_list', array('items' => $items, 'title' => '', 'type' => $type, 'attributes' => $attributes));
   // Alter the default item-list class because this triggers theme CSS which then overrides rrssb.css.
-  $output = str_replace('class="item-list"', 'class="rrssb-item-list"', $output);
+  $output = str_replace('class="item-list', 'class="rrssb-item-list', $output);
   return $output;
 }
 
