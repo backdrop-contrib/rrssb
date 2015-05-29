@@ -1,2 +1,0 @@
-/* Ensure that the bold is retained even on hover - this can get overriden by the theme. */
-.rrssb-buttons li a:hover {font-weight:bold}
