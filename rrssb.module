@@ -410,6 +410,7 @@ function rrssb_node_view($node, $view_mode, $langcode) {
  * Implements hook_field_extra_fields().
  */
 function rrssb_field_extra_fields() {
+  $extra = array();
   foreach (node_type_get_types() as $node_type) {
     if (variable_get('rrssb_' . $node_type->type) == 1) {
       $extra['node'][$node_type->type]['display']['rrssb'] = array(
