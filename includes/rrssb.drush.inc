@@ -7,12 +7,6 @@
  */
 
 /**
- * Define the RRSSB library location.
- */
-define('RRSSB_LIBRARY_VERSION', '1.8.1');
-define('RRSSB_LIBRARY_URI', 'https://github.com/kni-labs/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
-
-/**
  * Implements hook_drush_command().
  */
 function rrssb_drush_command() {

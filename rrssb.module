@@ -5,6 +5,12 @@
  */
 
 /**
+ * Define the RRSSB library location.
+ */
+define('RRSSB_LIBRARY_VERSION', '1.8.1');
+define('RRSSB_LIBRARY_URI', 'https://github.com/kni-labs/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
+
+/**
  * Implements hook_menu().
  */
 function rrssb_menu() {
@@ -33,6 +39,7 @@ function rrssb_permission() {
     ),
   );
 }
+
 /**
  * Implements hook_block_info().
  */
@@ -140,6 +147,44 @@ function rrssb_libraries_info() {
   );
 
   return $libraries;
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function rrssb_requirements($phase) {
+  // Check for library version.  We do a runtime check only, as we don't want to block install - the normal sequence
+  // is to install the module and then use the drush command to get the library. 
+  $requirements = array();
+  if ($phase == 'runtime') {
+    $requirements['rrssb']['title'] = t('RRSSB library');
+    $library = libraries_detect('rrssb');
+    if (!$library['installed']) {
+      $requirements['rrssb']['value'] = t('Not installed');
+      $requirements['rrssb']['severity'] = REQUIREMENT_ERROR;
+    }
+    else {
+      $requirements['rrssb']['value'] = $library['version'];
+      
+      if ($library['version'] < RRSSB_LIBRARY_VERSION) {
+        $requirements['rrssb']['severity'] = REQUIREMENT_ERROR;
+        $requirements['rrssb']['description'] = t('Library version is too old.  ');
+      }
+      else if ($library['version'] > RRSSB_LIBRARY_VERSION) {
+        $requirements['rrssb']['severity'] = REQUIREMENT_WARNING;
+        $requirements['rrssb']['description'] = t('Library version is newer than has been tested.  ');
+      }
+      else {
+        $requirements['rrssb']['severity'] = REQUIREMENT_OK;
+      }
+    }
+    
+    if ($requirements['rrssb']['severity'] != REQUIREMENT_OK) {
+      $requirements['rrssb']['description'] .= 
+        t('Please download the RRSSB library using "drush rrssb-plugin" or from !link.', array('!link' => l(RRSSB_LIBRARY_URI, RRSSB_LIBRARY_URI)));
+    }
+  }
+  return $requirements;
 }
 
 /**
