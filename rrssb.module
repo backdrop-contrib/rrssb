@@ -226,7 +226,7 @@ function rrssb_form() {
         // Hide the username for share URLs where it isn't needed.  Otherwise it is a required field.
         // @@TODO Required field not working.
         '#states' => array(
-          'visible' => array(":input[name='-']" => array('value' => 1)),
+          'visible' => array(":input[name='rrssb_follow']" => array('value' => 1)),
           'required' => array(":input[name='rrssb_chosen[$name][enabled]']" => array('checked' => TRUE)),
         ),
       );
@@ -392,7 +392,7 @@ function rrssb_get_buttons($node = NULL) {
   $vars['url'] = check_plain(rrssb_get_url($node));
   $vars['title'] = urlencode(check_plain(rrssb_get_title($node)));
   $vars['image'] = NULL;
-  drupal_alter('rrssb_image', $vars['image']);
+  drupal_alter('rrssb_image', $vars['image'], $node);
   
   $items = array('#theme' => 'rrssb_button_list');
   foreach (rrssb_settings() as $name => $button) {
@@ -412,9 +412,9 @@ function rrssb_get_buttons($node = NULL) {
 }
 
 /**
- * Implements hook_rsssb_image_alter().
+ * Implements hook_rrssb_image_alter().
  */
-function rrssb_rsssb_image_alter(&$image) {
+function rrssb_rrssb_image_alter(&$image, $node) {
   if (!isset($image)) {
     // Look for a field field_image.
     if (!empty($node->field_image)) {
