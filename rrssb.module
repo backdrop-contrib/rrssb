@@ -344,6 +344,8 @@ function rrssb_get_buttons($node = NULL, $image = NULL) {
   $loaded = libraries_load('rrssb');
 
   // Allow an alter of the rrssb items.
+  // **WARNING** This hook (new in rc3 release) may be replaced in future versions.  Potentially a better approach
+  // is to use the theme system, and hence Drupal provides a host of cutomisation mechanisms.
   drupal_alter('rrssb_items', $items);
 
   // Pass the items through the theme system as an "item list."
