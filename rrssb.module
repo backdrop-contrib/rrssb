@@ -461,7 +461,9 @@ function rrssb_settings($all = FALSE) {
   // Set some defaults.
   foreach ($buttons as $name => &$button) {
     // Merge in the current config, with suitable defaults and checking.
-    $button += $chosen[$name];
+    if (isset($chosen[$name])) {
+      $button += $chosen[$name];
+    }
     $button += $defaults;
     $button['username'] = check_plain($button['username']);
     
