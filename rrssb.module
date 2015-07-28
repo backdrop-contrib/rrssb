@@ -372,7 +372,16 @@ function rrssb_get_chosen() {
     'googleplus' => array('enabled' => TRUE),
     'pinterest' => array('enabled' => TRUE),
   );
-  return variable_get('rrssb_chosen', $defaults);
+  $chosen = variable_get('rrssb_chosen', $defaults);
+  
+  if (!is_array(current($chosen))) {
+    // Migrate from old format of variable.
+    foreach ($chosen as $name => &$enabled) {
+      $enabled = array('enabled' => $enabled ? TRUE : FALSE);
+    }
+  }
+
+  return $chosen;
 }
 
 /**
