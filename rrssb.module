@@ -4,8 +4,6 @@
  * Module file for Ridiculously Responsive Social Share Buttons.
  */
 
-//@@TODO Create rrssb.api.inc 
- 
 require('rrssb.config.inc'); 
  
 /**
@@ -13,6 +11,11 @@ require('rrssb.config.inc');
  */
 define('RRSSB_LIBRARY_VERSION', '1.8.1');
 define('RRSSB_LIBRARY_URI', 'https://github.com/kni-labs/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
+
+/**
+ * Default value for variable rrssb_image_tokens 
+ */
+define('RRSSB_IMAGE_TOKENS_DEFAULT', '[node:field_image]|[site:logo-url]');
 
 /**
  * Implements hook_menu().
@@ -45,6 +48,37 @@ function rrssb_permission() {
 }
 
 /**
+ * Implements hook_tokens().
+ *
+ * These tokens are not advertised in hook_token_info because they are of no use outside this module.
+ */
+function rrssb_tokens($type, $tokens, array $data = array(), array $options = array()) {
+  $replacements = array();
+
+  if ($type == 'rrssb' && !empty($data['rrssb'])) {
+    foreach ($tokens as $name => $original) {
+      if (isset($data['rrssb'][$name])) {
+        $replacements[$original] = $data['rrssb'][$name];
+      }
+    }
+  }
+
+  if ($type == 'site') {
+    foreach ($tokens as $name => $original) {
+      switch ($name) {
+        case 'logo-url':
+          if ($uri = theme_get_setting('logo')) {
+            $replacements[$original] = $uri;
+          }
+          break;
+      }
+    }
+  }  
+
+  return $replacements;
+}
+
+/**
  * Implements hook_theme().
  */
 function rrssb_theme($existing, $type, $theme, $path) {
@@ -56,7 +90,7 @@ function rrssb_theme($existing, $type, $theme, $path) {
       'render element' => 'element',
     ),
     'rrssb_button' => array(
-      'variables' => array('name' => NULL, 'button' => NULL, 'vars' => NULL),
+      'variables' => array('name' => NULL, 'button' => NULL, 'rrssb' => NULL),
     ),
   );
 }
@@ -113,11 +147,15 @@ function theme_rrssb_button_list($variables) {
  * Preprocess function for rrssb_button. 
  */
 function template_preprocess_rrssb_button(&$variables) {
-  // Variables are $name, $button, $vars
-  extract($variables, EXTR_REFS);
+  // Variables are $name, $button, $rrssb
+  extract($variables);
   $key = variable_get('rrssb_follow') ? 'follow_url' : 'share_url';
-  $vars['username'] = $button['username'];
-  $vars['link'] = preg_replace_callback('/{{(\w+)}}/', function ($matches) use($vars) { return $vars[$matches[1]]; }, $button[$key]);
+  $rrssb['username'] = $button['username'];
+  $variables['link'] = token_replace($button[$key], array('rrssb' => $rrssb), array('callback' => '_rrssb_urlencode'));
+}
+
+function _rrssb_urlencode($replacements, $data, $options) {
+  return array_map('urlencode', $replacements);
 }
 
 /**
@@ -125,11 +163,10 @@ function template_preprocess_rrssb_button(&$variables) {
  * Prints a single button.
  */
 function theme_rrssb_button($variables) {
-  // Variables are $name, $button, $vars
+  // Variables are $name, $button, $rrssb, $link
   extract($variables);
-  $icon = '/' . drupal_get_path('module', 'rrssb') . '/placeholder.png';
   $output = <<<EOM
-<li class="rrssb-$name"><a href="$vars[link]" class="popup"><span class="rrssb-icon">$button[svg]</span><span class="rrssb-text">$button[text]</span></a></li>
+<li class="rrssb-$name"><a href="$link" class="popup"><span class="rrssb-icon">$button[svg]</span><span class="rrssb-text">$button[text]</span></a></li>
 EOM;
   return $output;
 }
@@ -176,12 +213,6 @@ function rrssb_form() {
     '#default_value' => variable_get('rrssb_follow'),
     '#description' => t('"Share" buttons invite the visitor to share the page from your site onto their page/channel/profile.  "Follow" buttons direct the visitor to your page/channel/profile.'),
   );
-  $form['rrssb_prefix'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Prefix text before the buttons'),
-    '#default_value' => variable_get('rrssb_prefix'),
-    '#description' => t('Put this text before the buttons.  For example "Follow us" or "Share this page".'),
-  );
   // Create the config for the table of buttons.
   // Drupal handles all the storing to the rrssb_chosen variable automatically, serialising the array.
   // The table layout comes from the theme function.
@@ -203,20 +234,16 @@ function rrssb_form() {
     }
     $form['rrssb_chosen'][$name]['label'] = array(
       '#type' => 'item',
-      '#markup' => $name,
+      '#markup' => $button['text'],
     );
     $form['rrssb_chosen'][$name]['enabled'] = array(
       '#type' => 'checkbox',
       '#default_value' => isset($chosen[$name]['enabled']) ? $chosen[$name]['enabled'] : FALSE,
     );
     if (isset($require_follow)) {
-      $form['rrssb_chosen'][$name]['require_follow'] = array(
-        '#type' => 'value',
-        '#value' => $require_follow,
-      );
-      // Disable entries where there is no corresponding URL.
+      // Hide entries where there is no corresponding URL.
       $form['rrssb_chosen'][$name]['enabled']['#states'] = array(
-        'enabled' => array(":input[name='rrssb_follow']" => array('value' => $require_follow))
+        'visible' => array(":input[name='rrssb_follow']" => array('value' => $require_follow))
       );
     }
     if (isset($button['follow_url'])) {
@@ -234,10 +261,24 @@ function rrssb_form() {
     $form['rrssb_chosen'][$name]['weight'] = array(
       '#type' => 'weight',
       '#default_value' => isset($chosen[$name]['weight']) ? $chosen[$name]['weight'] : 0,
-      '#delta' => 10,
+      '#delta' => 20,
       '#attributes' => array('class' => array('item-row-weight')),
     ); 
   }
+  $form['rrssb_prefix'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Prefix text before the buttons'),
+    '#default_value' => variable_get('rrssb_prefix'),
+    '#description' => t('Put this text before the buttons.  For example "Follow us" or "Share this page".'),
+  );
+  $form['rrssb_image_tokens'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Tokens to use to find images'),
+    '#default_value' => variable_get('rrssb_image_tokens', RRSSB_IMAGE_TOKENS_DEFAULT),
+    '#description' => t('Enter one or more tokens, separated by |.  These tokens will be tried in turn to determine the image to use in buttons.
+      The default value is !default which you can adapt to pick other fields or as desired.', array('!default' => RRSSB_IMAGE_TOKENS_DEFAULT)),
+  );
+
   $form['#submit'][] = 'rrssb_form_submit';
   $form['#validate'][] = 'rrssb_form_validate';
   return system_settings_form($form);
@@ -252,15 +293,11 @@ function rrssb_form_validate($form, &$form_state) {
   
   foreach ($form_state['values']['rrssb_chosen'] as $name => $settings) {
     if ($settings['enabled']) {
-      if ($follow && !$settings['username']) {
+      if ($follow && isset($settings['username']) && !$settings['username']) {
         //@@TODO The form highlighting the error in red isn't working.
-        form_set_error("rrssb_chosen[$name][username]", t('You must set the username to use "Follow" buttons'));
+        form_set_error("rrssb_chosen[$name][username]", t('You must set the username to use "Follow" button for !button', array('!button' => $name)));
       }
-      // If javascript is enabled, any field that has been grayed out by the #states disabled handler is automatically cleared upon submit.
-      // However scripts might not be enabled, so double-check just in case. 
-      if (isset($settings['require_follow']) && ($settings['require_follow'] != $follow)) {
-        form_set_error("rrssb_chosen[$name][enabled]", t('!button button does not support "!follow" buttons', array('!button' => $name, '!follow' => $follow_text)));
-      }    
+      // If a button is enabled where there is no URL, we don't count that as an error, just don't show the button (@see rrssb_settings).
     }
   }
 }
@@ -269,7 +306,7 @@ function rrssb_form_validate($form, &$form_state) {
  * Submit handler for rrssb_form().
  */
 function rrssb_form_submit() {
-  // Clear cache;
+  // Clear cache.
   cache_clear_all('rrssb_buttons', 'cache');
 }
 
@@ -337,30 +374,6 @@ function rrssb_requirements($phase) {
 }
 
 /**
- * Sets the current URL to be the shareable url.
- *
- * @param object $node
- *   A node object to grab the url from, or use the current path.
- *
- * @return string
- *   A url to pass to the share buttons.
- */
-function rrssb_get_url($node = NULL) {
-  $path = is_null($node) ? $_GET['q'] : 'node/' . $node->nid;
-  return url($path, array('absolute' => TRUE));
-}
-
-/**
- * Gets the page title to share.
- *
- * @param object $node
- *   A node object to grab the title from, or get the current title.
- */
-function rrssb_get_title($node = NULL) {
-  return is_null($node) ? drupal_get_title() : $node->title;
-}
-
-/**
  * Return the chosen buttons, or the default values if not yet set.
  */
 function rrssb_get_chosen() {
@@ -398,10 +411,29 @@ function rrssb_get_buttons($node = NULL) {
     $node = menu_get_object();
   }
 
-  $vars['url'] = check_plain(rrssb_get_url($node));
-  $vars['title'] = urlencode(check_plain(rrssb_get_title($node)));
-  $vars['image'] = NULL;
-  drupal_alter('rrssb_image', $vars['image'], $node);
+  // Create an array for how we will map [rrssb:XXX] tokens.  The key is the XXX value and the value is an array
+  // of other tokens to try in turn until one works.  For the image token, we allow the user to configure the list
+  // of tokens.
+  $image_tokens = explode('|', variable_get('rrssb_image_tokens', RRSSB_IMAGE_TOKENS_DEFAULT)); 
+  
+  $config = array(
+    'url' => array('[node:url]', '[current-page:url]'),
+    'title' => array('[node:title]', '[current-page:title]'),
+    'image' => $image_tokens,
+  );  
+  
+  // Replace tokens.
+  foreach ($config as $param => $tokens) {
+    foreach ($tokens as $token) {
+      $rrssb[$param] = token_replace($token, array('node' => $node), array('clear' => TRUE));
+      if ($rrssb[$param]) {
+        break;
+      }
+    }
+  }
+  
+  // If the image returned a comma separated list, just take the first entry.
+  list($rrssb['image']) = explode(',', $rrssb['image']);
   
   $items = array('#theme' => 'rrssb_button_list');
   foreach (rrssb_settings() as $name => $button) {
@@ -409,7 +441,7 @@ function rrssb_get_buttons($node = NULL) {
       '#theme' => 'rrssb_button',
       '#name' => $name,
       '#button' => $button,
-      '#vars' => $vars,
+      '#rrssb' => $rrssb,
     );
   }
   
@@ -486,8 +518,9 @@ function rrssb_settings($all = FALSE) {
   uasort($buttons, 'drupal_sort_weight');
   
   if (!$all) {
-    // Filter to only include enabled ones.
-    $buttons = array_filter($buttons, function($button) { return $button['enabled']; });
+    // Filter to only include enabled ones with a URL configured.
+    $key = variable_get('rrssb_follow') ? 'follow_url' : 'share_url';
+    $buttons = array_filter($buttons, function($button) use($key) { return $button['enabled'] && isset($button[$key]); });
     cache_set('rrssb_buttons', $buttons);
   }
   
