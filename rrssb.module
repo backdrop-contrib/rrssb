@@ -154,8 +154,11 @@ function template_preprocess_rrssb_button(&$variables) {
   $variables['link'] = token_replace($button[$key], array('rrssb' => $rrssb), array('callback' => '_rrssb_urlencode'));
 }
 
-function _rrssb_urlencode($replacements, $data, $options) {
-  return array_map('urlencode', $replacements);
+/** 
+ * Helper function to URL encode.
+ */
+function _rrssb_urlencode(&$replacements, $data, $options) {
+  $replacements = array_map('rawurlencode', $replacements);
 }
 
 /**
