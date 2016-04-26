@@ -351,6 +351,7 @@ function rrssb_requirements($phase) {
     if (!$library['installed']) {
       $requirements['rrssb']['value'] = t('Not installed');
       $requirements['rrssb']['severity'] = REQUIREMENT_ERROR;
+      $requirements['rrssb']['description'] = '';
     }
     else {
       $requirements['rrssb']['value'] = $library['version'];
