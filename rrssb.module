@@ -4,8 +4,8 @@
  * Module file for Ridiculously Responsive Social Share Buttons.
  */
 
-require('rrssb.config.inc'); 
- 
+require('rrssb.config.inc');
+
 /**
  * Define the RRSSB library location.
  */
@@ -13,7 +13,7 @@ define('RRSSB_LIBRARY_VERSION', '1.8.1');
 define('RRSSB_LIBRARY_URI', 'https://github.com/kni-labs/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
 
 /**
- * Default value for variable rrssb_image_tokens 
+ * Default value for variable rrssb_image_tokens
  */
 define('RRSSB_IMAGE_TOKENS_DEFAULT', '[node:field_image]|[site:logo-url]');
 
@@ -73,7 +73,7 @@ function rrssb_tokens($type, $tokens, array $data = array(), array $options = ar
           break;
       }
     }
-  }  
+  }
 
   return $replacements;
 }
@@ -103,15 +103,15 @@ function theme_rrssb_config_buttons($variables) {
   $elements = $variables['element'];
   // Allow dragging of rows to set the weights, handled by javascript.
   drupal_add_tabledrag('rrssb_config_buttons', 'order', 'sibling', 'item-row-weight');
- 
+
   $header = array(
-    'label' => t('Button'), 
+    'label' => t('Button'),
     'enabled' => t('Enabled'),
     // @@TODO Not sure if there is anywhere we can write a description '#description' => t('Username for your page/channel/profile.'),
     'username' => t('Username'),
     'weight' => t('Weight'),
   );
- 
+
   $rows = array();
   foreach (element_children($elements) as $name) {
     $row = array('class' => array('draggable'));
@@ -120,9 +120,9 @@ function theme_rrssb_config_buttons($variables) {
     }
     $rows[] = $row;
   }
- 
+
   return theme('table', array(
-    'header' => $header, 
+    'header' => $header,
     'rows' => $rows,
     'attributes' => array('id' => 'rrssb_config_buttons'),
   ));
@@ -144,7 +144,7 @@ function theme_rrssb_button_list($variables) {
 }
 
 /**
- * Preprocess function for rrssb_button. 
+ * Preprocess function for rrssb_button.
  */
 function template_preprocess_rrssb_button(&$variables) {
   // Variables are $name, $button, $rrssb
@@ -154,7 +154,7 @@ function template_preprocess_rrssb_button(&$variables) {
   $variables['link'] = token_replace($button[$key], array('rrssb' => $rrssb), array('callback' => '_rrssb_urlencode'));
 }
 
-/** 
+/**
  * Helper function to URL encode.
  */
 function _rrssb_urlencode(&$replacements, $data, $options) {
@@ -162,7 +162,7 @@ function _rrssb_urlencode(&$replacements, $data, $options) {
 }
 
 /**
- * Theme function for rrssb_button. 
+ * Theme function for rrssb_button.
  * Prints a single button.
  */
 function theme_rrssb_button($variables) {
@@ -266,7 +266,7 @@ function rrssb_form() {
       '#default_value' => isset($chosen[$name]['weight']) ? $chosen[$name]['weight'] : 0,
       '#delta' => 20,
       '#attributes' => array('class' => array('item-row-weight')),
-    ); 
+    );
   }
   $form['rrssb_prefix'] = array(
     '#type' => 'textfield',
@@ -293,7 +293,7 @@ function rrssb_form() {
 function rrssb_form_validate($form, &$form_state) {
   $follow = $form_state['values']['rrssb_follow'];
   $follow_text = $follow ? t('Follow') : t('Share');
-  
+
   foreach ($form_state['values']['rrssb_chosen'] as $name => $settings) {
     if ($settings['enabled']) {
       if ($follow && isset($settings['username']) && !$settings['username']) {
@@ -343,7 +343,7 @@ function rrssb_libraries_info() {
  */
 function rrssb_requirements($phase) {
   // Check for library version.  We do a runtime check only, as we don't want to block install - the normal sequence
-  // is to install the module and then use the drush command to get the library. 
+  // is to install the module and then use the drush command to get the library.
   $requirements = array();
   if ($phase == 'runtime') {
     $requirements['rrssb']['title'] = t('RRSSB library');
@@ -354,7 +354,7 @@ function rrssb_requirements($phase) {
     }
     else {
       $requirements['rrssb']['value'] = $library['version'];
-      
+
       if ($library['version'] < RRSSB_LIBRARY_VERSION) {
         $requirements['rrssb']['severity'] = REQUIREMENT_ERROR;
         $requirements['rrssb']['description'] = t('Library version is too old.  ');
@@ -367,9 +367,9 @@ function rrssb_requirements($phase) {
         $requirements['rrssb']['severity'] = REQUIREMENT_OK;
       }
     }
-    
+
     if ($requirements['rrssb']['severity'] != REQUIREMENT_OK) {
-      $requirements['rrssb']['description'] .= 
+      $requirements['rrssb']['description'] .=
         t('Please download the RRSSB library using "drush rrssb-plugin" or from !link.', array('!link' => l(RRSSB_LIBRARY_URI, RRSSB_LIBRARY_URI)));
     }
   }
@@ -389,7 +389,7 @@ function rrssb_get_chosen() {
     'pinterest' => array('enabled' => TRUE),
   );
   $chosen = variable_get('rrssb_chosen', $defaults);
-  
+
   if (!is_array(current($chosen))) {
     // Migrate from old format of variable.
     foreach ($chosen as $name => &$enabled) {
@@ -417,14 +417,14 @@ function rrssb_get_buttons($node = NULL) {
   // Create an array for how we will map [rrssb:XXX] tokens.  The key is the XXX value and the value is an array
   // of other tokens to try in turn until one works.  For the image token, we allow the user to configure the list
   // of tokens.
-  $image_tokens = explode('|', variable_get('rrssb_image_tokens', RRSSB_IMAGE_TOKENS_DEFAULT)); 
-  
+  $image_tokens = explode('|', variable_get('rrssb_image_tokens', RRSSB_IMAGE_TOKENS_DEFAULT));
+
   $config = array(
     'url' => array('[node:url]', '[current-page:url]'),
     'title' => array('[node:title]', '[current-page:title]'),
     'image' => $image_tokens,
-  );  
-  
+  );
+
   // Replace tokens.
   foreach ($config as $param => $tokens) {
     foreach ($tokens as $token) {
@@ -434,10 +434,10 @@ function rrssb_get_buttons($node = NULL) {
       }
     }
   }
-  
+
   // If the image returned a comma separated list, just take the first entry.
   list($rrssb['image']) = explode(',', $rrssb['image']);
-  
+
   $items = array('#theme' => 'rrssb_button_list');
   foreach (rrssb_settings() as $name => $button) {
     $items []= array(
@@ -447,11 +447,11 @@ function rrssb_get_buttons($node = NULL) {
       '#rrssb' => $rrssb,
     );
   }
-  
+
   // Add css and js here, so it's always available when we're showing buttons.
   // Don't have to worry about adding them more than once.
   libraries_load('rrssb');
-  
+
   return $items;
 }
 
@@ -481,7 +481,7 @@ function rrssb_rrssb_image_alter(&$image, $node) {
  *
  * @return array Key is button name, value is an array of button config and settings merged.
  * For config values, see hook_rrssb_buttons.
- * Settings values are 'enabled', 'weight', 'username'. 
+ * Settings values are 'enabled', 'weight', 'username'.
  */
 function rrssb_settings($all = FALSE) {
   // The 'all buttons' case is only used on the settings form, so performance isn't so important.
@@ -490,18 +490,18 @@ function rrssb_settings($all = FALSE) {
   if (isset($buttons)) {
     return $buttons;
   }
-  
+
   if (!$all && $cache = cache_get('rrssb_buttons')) {
     $buttons = $cache->data;
     return $buttons;
   }
-  
+
   // Get all buttons.
   $chosen = rrssb_get_chosen();
   $defaults = array('enabled' => FALSE, 'weight' => 0, 'username' => '');
   $buttons = module_invoke_all('rrssb_buttons');
   drupal_alter('rrssb_buttons', $buttons);
-  
+
   // Set some defaults.
   foreach ($buttons as $name => &$button) {
     // Merge in the current config, with suitable defaults and checking.
@@ -510,7 +510,7 @@ function rrssb_settings($all = FALSE) {
     }
     $button += $defaults;
     $button['username'] = check_plain($button['username']);
-    
+
     // Default text to name.
     if (!isset($button['text'])) {
       $button['text'] = $name;
@@ -519,14 +519,14 @@ function rrssb_settings($all = FALSE) {
 
   // Sort buttons by configured weight.
   uasort($buttons, 'drupal_sort_weight');
-  
+
   if (!$all) {
     // Filter to only include enabled ones with a URL configured.
     $key = variable_get('rrssb_follow') ? 'follow_url' : 'share_url';
     $buttons = array_filter($buttons, function($button) use($key) { return $button['enabled'] && isset($button[$key]); });
     cache_set('rrssb_buttons', $buttons);
   }
-  
+
   return $buttons;
 }
 
