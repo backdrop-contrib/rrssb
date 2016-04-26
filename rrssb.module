@@ -526,6 +526,9 @@ function rrssb_form_node_type_form_alter(&$form, &$form_state) {
       'class' => array('rrssb-node-type-settings-form'),
     ),
     '#access' => user_access('administer nodes'),
+    '#attached' => array(
+      'js' => array(drupal_get_path('module', 'rrssb') . '/rrssb.nodetype.js'),
+    ),
   );
   $form['rrssb']['show'] = array(
     '#type' => 'checkbox',
