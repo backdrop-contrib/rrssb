@@ -7,7 +7,7 @@
 /**
  * Provide configuration for social share buttons.
  *
- * @return 
+ * @return
  *  Array of button configuration.  The key is an identifier for the button.
  *  The value is an associative array that may contain the following key-value pairs.
  *  You must pass at least one of share_url and follow_url, and you may pass both.
@@ -20,6 +20,7 @@
  *  - "color": Background color to use for this button.
  *  - "color_hover": Background color to use for this button on hover.
  *  - "text": Text to use for this button.  Defaults to the identifier used as a key for this button.
+ *  - "popup": Whether to use the popup class for this button.  Defaults to TRUE.
  *
  * @see rrssb_rrssb_buttons
  */
@@ -29,7 +30,7 @@ function hook_rrssb_buttons() {
 /**
  * Alter the configuration for social share buttons provided by other modules.
  *
- * @param $buttons Existing button configration, see @hook_rrssb_buttons. 
+ * @param $buttons Existing button configration, see @hook_rrssb_buttons.
  */
 function hook_rrssb_buttons_alter(&$buttons) {
 }

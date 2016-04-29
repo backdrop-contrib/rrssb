@@ -168,8 +168,9 @@ function _rrssb_urlencode(&$replacements, $data, $options) {
 function theme_rrssb_button($variables) {
   // Variables are $name, $button, $rrssb, $link
   extract($variables);
+  $class = $button['popup'] ? 'class="popup"' : '';
   $output = <<<EOM
-<li class="rrssb-$name"><a href="$link" class="popup"><span class="rrssb-icon">$button[svg]</span><span class="rrssb-text">$button[text]</span></a></li>
+<li class="rrssb-$name"><a href="$link" $class><span class="rrssb-icon">$button[svg]</span><span class="rrssb-text">$button[text]</span></a></li>
 EOM;
   return $output;
 }
@@ -494,7 +495,7 @@ function rrssb_settings($all = FALSE) {
 
   // Get all buttons.
   $chosen = rrssb_get_chosen();
-  $defaults = array('enabled' => FALSE, 'weight' => 0, 'username' => '');
+  $defaults = array('enabled' => FALSE, 'weight' => 0, 'username' => '', 'popup' => TRUE);
   $buttons = module_invoke_all('rrssb_buttons');
   drupal_alter('rrssb_buttons', $buttons);
 
