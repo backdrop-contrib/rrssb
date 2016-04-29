@@ -450,15 +450,15 @@ function rrssb_get_buttons($node = NULL) {
     );
   }
 
-  // Add css and js here, so it's always available when we're showing buttons.
-  // Don't have to worry about adding them more than once.
-  libraries_load('rrssb');
-
+  // Add css and js.
+  // Use #attached rather than adding directly else block caching is broken.
   $css = variable_get('rrssb_css_file');
   if (!$css) {
     $css = rrssb_gen_css();
   }
-  drupal_add_css($css);
+
+  $items['#attached']['libraries_load'][] = array('rrssb');
+  $items['#attached']['css'] = array($css);
 
   return $items;
 }
