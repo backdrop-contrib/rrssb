@@ -383,19 +383,23 @@ function rrssb_requirements($phase) {
  */
 function rrssb_get_chosen() {
   $defaults = array(
-    'email' => array('enabled' => TRUE),
-    'facebook' => array('enabled' => TRUE),
-    'linkedin' => array('enabled' => TRUE),
-    'twitter' => array('enabled' => TRUE),
-    'googleplus' => array('enabled' => TRUE),
-    'pinterest' => array('enabled' => TRUE),
+    'email' => array('enabled' => TRUE, 'weight' => -20),
+    'facebook' => array('enabled' => TRUE, 'weight' => -19),
+    'linkedin' => array('enabled' => TRUE, 'weight' => -18),
+    'twitter' => array('enabled' => TRUE, 'weight' => -17),
+    'googleplus' => array('enabled' => TRUE, 'weight' => -16),
+    'pinterest' => array('enabled' => TRUE, 'weight' => -15),
   );
   $chosen = variable_get('rrssb_chosen', $defaults);
 
   if (!is_array(current($chosen))) {
     // Migrate from old format of variable.
+    $weight = -20;
     foreach ($chosen as $name => &$enabled) {
-      $enabled = array('enabled' => $enabled ? TRUE : FALSE);
+      $enabled = array(
+        'enabled' => $enabled ? TRUE : FALSE,
+        'weight' => $weight++,
+      );
     }
   }
 
