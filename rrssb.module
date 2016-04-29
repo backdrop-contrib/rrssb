@@ -312,8 +312,11 @@ function rrssb_form_submit() {
   // Clear cache.
   cache_clear_all('rrssb_buttons', 'cache');
 
-  // Write CSS per active button.
-  rrssb_gen_css();
+  // Delete auto-generated CSS.
+  if ($old = variable_get('rrssb_css_file')) {
+    file_unmanaged_delete($old);
+  }
+  variable_del('rrssb_css_file');
 }
 
 /**
