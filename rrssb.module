@@ -10,7 +10,7 @@ require('rrssb.config.inc');
  * Define the RRSSB library location.
  */
 define('RRSSB_LIBRARY_VERSION', '1.8.1');
-define('RRSSB_LIBRARY_URI', 'https://github.com/kni-labs/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
+define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
 
 /**
  * Default value for variable rrssb_image_tokens
@@ -338,7 +338,9 @@ function rrssb_libraries_info() {
       'js' => array(
         'js/rrssb.min.js',
       ),
-      // Don't list the CSS file here.  This module generates a new file based on the original one and uses that.
+      'css' => array(
+        'css/rrssb.css',
+      ),
     ),
   );
 
@@ -552,12 +554,6 @@ function rrssb_gen_css() {
 EOM;
   }
 
-  // Add CSS from the library, excluding any buttons.
-  $orig_file = libraries_get_path('rrssb') . '/css/rrssb.css';
-  if ($orig_css = file_get_contents($orig_file)) {
-    $orig_css = preg_replace('/.rrssb-buttons li.rrssb-[\w]+ a(:hover)?{background-color:#[\w]+}/', '', $orig_css);
-    $css .= preg_replace('/.rrssb-buttons.tiny-format li.rrssb-[\w]+ a .rrssb-icon[^{]*{fill:#[\w]+}/', '', $orig_css);
-  }
 
   // Save to a unique filename.
   $id = substr(hash('sha256', serialize($settings) . microtime()), 0, 8);

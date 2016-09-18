@@ -5,5 +5,4 @@ package = RRSSB
 configure = admin/config/content/rrssb
 
 dependencies[] = libraries
-dependencies[] = jquery_update
 files[] = includes/rrssb.drush.inc
