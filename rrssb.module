@@ -15,7 +15,7 @@ define('RRSSB_LIBRARY_URI', 'https://github.com/kni-labs/rrssb/archive/' . RRSSB
 /**
  * Default value for variable rrssb_image_tokens
  */
-define('RRSSB_IMAGE_TOKENS_DEFAULT', '[node:field_image]|[site:logo-url]');
+define('RRSSB_IMAGE_TOKENS_DEFAULT', '[node:field_image]|[rrssbsite:logo-url]');
 
 /**
  * Implements hook_menu().
@@ -63,7 +63,9 @@ function rrssb_tokens($type, $tokens, array $data = array(), array $options = ar
     }
   }
 
-  if ($type == 'site') {
+  // This issue https://www.drupal.org/node/823780 has a patch to add site:logo.
+  // In the meantime, add our own version.
+  if ($type == 'rrssbsite') {
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'logo-url':
