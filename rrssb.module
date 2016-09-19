@@ -502,6 +502,7 @@ function rrssb_settings($all = FALSE) {
   $defaults = array('enabled' => FALSE, 'weight' => 0, 'username' => '', 'popup' => TRUE);
   $buttons = module_invoke_all('rrssb_buttons');
   drupal_alter('rrssb_buttons', $buttons);
+  $iconsDir = libraries_get_path('rrssb') . '/icons';
 
   // Set some defaults.
   foreach ($buttons as $name => &$button) {
@@ -511,6 +512,13 @@ function rrssb_settings($all = FALSE) {
     }
     $button += $defaults;
     $button['username'] = check_plain($button['username']);
+
+    if (!isset($button['svg'])) {
+      // Read SVG from file.
+      $svgfile = isset($button['svgfile']) ? $button['svgfile'] : "<icons>/$name.min.svg";
+      $svgfile = str_replace('<icons>', $iconsDir, $svgfile);
+      $button['svg'] = file_get_contents($svgfile);
+    }
 
     // Default text to name.
     if (!isset($button['text'])) {
