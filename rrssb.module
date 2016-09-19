@@ -329,7 +329,7 @@ function rrssb_libraries_info() {
   $libraries['rrssb'] = array(
     'name' => 'Ridiculously Responsive Social Share Buttons',
     'vendor url' => 'http://kurtnoble.com/labs/rrssb/',
-    'download url' => 'https://github.com/kni-labs/rrssb/archive/1.8.1.zip',
+    'download url' => RRSSB_LIBRARY_URI,
     'version arguments' => array(
       'file' => 'package.json',
       'pattern' => '/"version": "([\d\.]+)"/',
