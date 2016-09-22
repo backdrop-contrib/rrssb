@@ -552,22 +552,12 @@ function rrssb_gen_css() {
   $css = "/* Auto-generated RRSSB CSS file. */\n";
   $settings = rrssb_settings();
   foreach ($settings as $name => $button) {
-    // NB RRSSB library version 1.8.1 has a bug that tiny-format hover doesn't work - fixed here.
     $css .= <<<EOM
 .rrssb-buttons li.rrssb-$name a { background-color: $button[color]; }
 .rrssb-buttons li.rrssb-$name a:hover { background-color: $button[color_hover]; }
-.rrssb-buttons.tiny-format li.rrssb-$name a .rrssb-icon svg path { fill:$button[color]; }
-.rrssb-buttons.tiny-format li.rrssb-$name a .rrssb-icon:hover svg path { fill:$button[color_hover]; }
 
 EOM;
   }
-
-  // Ensure buttons without labels don't wrap.
-  $width = 100/count($settings);
-  $css .= <<<EOM
-.rrssb-buttons.small-format li, .rrssb-buttons.tiny-format li { max-width: $width%; }
-
-EOM;
 
   // Save to a unique filename.
   $id = substr(hash('sha256', serialize($settings) . microtime()), 0, 8);
