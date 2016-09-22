@@ -10,7 +10,7 @@ require('rrssb.config.inc');
  * Define the RRSSB library location.
  */
 define('RRSSB_LIBRARY_VERSION', '1.8.1');
-define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/rrssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
+define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/srssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
 
 /**
  * Default value for variable rrssb_image_tokens
@@ -326,9 +326,9 @@ function rrssb_form_submit() {
  * Implements hook_libraries_info().
  */
 function rrssb_libraries_info() {
-  $libraries['rrssb'] = array(
-    'name' => 'Ridiculously Responsive Social Share Buttons',
-    'vendor url' => 'http://kurtnoble.com/labs/rrssb/',
+  $libraries['srssb'] = array(
+    'name' => 'Simple Responsive Social Share Buttons',
+    'vendor url' => 'http://www.albanyweb.co.uk/srssb',
     'download url' => RRSSB_LIBRARY_URI,
     'version arguments' => array(
       'file' => 'package.json',
@@ -355,8 +355,8 @@ function rrssb_requirements($phase) {
   // is to install the module and then use the drush command to get the library.
   $requirements = array();
   if ($phase == 'runtime') {
-    $requirements['rrssb']['title'] = t('RRSSB library');
-    $library = libraries_detect('rrssb');
+    $requirements['rrssb']['title'] = t('SRSSB library');
+    $library = libraries_detect('srssb');
     if (!$library['installed']) {
       $requirements['rrssb']['value'] = t('Not installed');
       $requirements['rrssb']['severity'] = REQUIREMENT_ERROR;
@@ -469,7 +469,7 @@ function rrssb_get_buttons($node = NULL) {
     $css = rrssb_gen_css();
   }
 
-  $items['#attached']['libraries_load'][] = array('rrssb');
+  $items['#attached']['libraries_load'][] = array('srssb');
   $items['#attached']['css'] = array($css);
 
   return $items;
@@ -502,7 +502,7 @@ function rrssb_settings($all = FALSE) {
   $defaults = array('enabled' => FALSE, 'weight' => 0, 'username' => '', 'popup' => TRUE);
   $buttons = module_invoke_all('rrssb_buttons');
   drupal_alter('rrssb_buttons', $buttons);
-  $iconsDir = libraries_get_path('rrssb') . '/icons';
+  $iconsDir = libraries_get_path('srssb') . '/icons';
 
   // Set some defaults.
   foreach ($buttons as $name => &$button) {
