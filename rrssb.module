@@ -364,12 +364,13 @@ function rrssb_requirements($phase) {
     }
     else {
       $requirements['rrssb']['value'] = $library['version'];
+      $compare = version_compare($library['version'], RRSSB_LIBRARY_VERSION);
 
-      if ($library['version'] < RRSSB_LIBRARY_VERSION) {
+      if ($compare < 0) {
         $requirements['rrssb']['severity'] = REQUIREMENT_ERROR;
         $requirements['rrssb']['description'] = t('Library version is too old.  ');
       }
-      else if ($library['version'] > RRSSB_LIBRARY_VERSION) {
+      else if ($compare > 0) {
         $requirements['rrssb']['severity'] = REQUIREMENT_WARNING;
         $requirements['rrssb']['description'] = t('Library version is newer than has been tested.  ');
       }
