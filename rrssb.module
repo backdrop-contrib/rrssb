@@ -135,7 +135,7 @@ function theme_rrssb_config_buttons($variables) {
  * Prints the list of all buttons.
  */
 function theme_rrssb_button_list($variables) {
-  $output = '<div class="rrssb-item-list">';
+  $output = '<div class="rrssb">';
   if ($prefix = variable_get('rrssb_prefix')) {
     $output .= '<span class="rrssb-prefix">' . t($prefix) . '</span>';
   }
