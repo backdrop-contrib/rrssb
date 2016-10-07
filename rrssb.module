@@ -367,6 +367,7 @@ function rrssb_form_submit() {
  * Implements hook_libraries_info().
  */
 function rrssb_libraries_info() {
+  $test = variable_get('rrssb_test');
   $libraries['srssb'] = array(
     'name' => 'Simple Responsive Social Share Buttons',
     'vendor url' => 'http://www.albanyweb.co.uk/srssb',
@@ -377,7 +378,7 @@ function rrssb_libraries_info() {
     ),
     'files' => array(
       'js' => array(
-        'js/rrssb.min.js',
+        $test ? 'js/rrssb.js' : 'js/rrssb.min.js',
       ),
       'css' => array(
         'css/rrssb.css',
