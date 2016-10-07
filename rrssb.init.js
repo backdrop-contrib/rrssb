@@ -6,7 +6,7 @@
 (function ($) {
     Drupal.behaviors.rrssb = {
       attach: function(context, settings) {
-        rrssbConfig(settings.rrssb);
+        rrssbConfigAll(settings.rrssb);
       }
     };
 })(jQuery);
