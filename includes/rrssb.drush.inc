@@ -51,10 +51,10 @@ function drush_rrssb_plugin($destination = NULL, $only_if_missing = FALSE) {
     $destination = 'sites/all/libraries';
   }
 
-  // The zip extracts to create a temporary directory rrssb-VERSION which we then rename.
+  // The zip extracts to create a temporary directory which we then rename.
   // Delete existing files, including temporary ones if we failed part way through.
-  $temp_library = "$destination/rrssb-" . RRSSB_LIBRARY_VERSION;
-  $library = "$destination/rrssb";
+  $library = "$destination/srssb";
+  $temp_library = "$library-" . RRSSB_LIBRARY_VERSION;
 
   if (is_dir($library)) {
     if ($only_if_missing) {

@@ -10,7 +10,7 @@ require('rrssb.config.inc');
  * Define the RRSSB library location.
  */
 define('RRSSB_LIBRARY_VERSION', '0.1.0');
-define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/srssb/archive/' . RRSSB_LIBRARY_VERSION . '.zip');
+define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/srssb/archive/v' . RRSSB_LIBRARY_VERSION . '.zip');
 
 /**
  * Default value for variable rrssb_image_tokens
