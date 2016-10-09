@@ -11,7 +11,6 @@ function rrssb_rrssb_buttons() {
       'color_hover' => '#095fb4',
     ),
     'email' => array(
-      'svgfile' => '<icons>/mail.min.svg',
       'share_url' => 'mailto:?subject=[rrssb:title]&body=[rrssb:url]',
       'color' => '#0a88ff',
       'color_hover' => '#006ed6',
@@ -34,7 +33,6 @@ function rrssb_rrssb_buttons() {
       'color_hover' => '#2b2b2b',
     ),
     'googleplus' => array(
-      'svgfile' => '<icons>/google_plus.min.svg',
       'share_url' => 'https://plus.google.com/share?url=[rrssb:title] [rrssb:url]',
       'follow_url' => 'https://plus.google.com/[rrssb:username]/posts',
       'color' => '#e93f2e',

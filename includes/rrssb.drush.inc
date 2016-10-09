@@ -53,8 +53,7 @@ function drush_rrssb_plugin($destination = NULL, $only_if_missing = FALSE) {
 
   // The zip extracts to create a temporary directory which we then rename.
   // Delete existing files, including temporary ones if we failed part way through.
-  $library = "$destination/srssb";
-  $temp_library = "$library-" . RRSSB_LIBRARY_VERSION;
+  $library = "$destination/rrssb-plus";
 
   if (is_dir($library)) {
     if ($only_if_missing) {
@@ -63,17 +62,31 @@ function drush_rrssb_plugin($destination = NULL, $only_if_missing = FALSE) {
     drush_log(dt('Deleting existing RRSSB plugin'), 'notice');
     drush_delete_dir($library, TRUE);
   }
-  drush_delete_dir($temp_library, TRUE);
 
-  $zip = drush_download_file(RRSSB_LIBRARY_URI);
+  // Use the git API to find the latest library version.
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_URL, 'https://api.github.com/repos/AdamPS/rrssb-plus/releases/latest');
+  curl_setopt($ch, CURLOPT_USERAGENT, 'curl');
+  $info = json_decode(curl_exec($ch));
+  curl_close($ch);
+
+  $zip = drush_download_file($info->zipball_url);
   if (!$zip) {
-    return drush_set_error(dt('Failed to download @url', array('@url' => RRSSB_LIBRARY_URI)));
+    return drush_set_error(dt('Failed to download @url', array('@url' => $info->zipball_url)));
   }
 
-  if (!drush_tarball_extract($zip, $destination)) {
+  $listing = drush_tarball_extract($zip, $destination, TRUE);
+  if (!$listing) {
     return drush_set_error(dt('Failed to extract to @dest', array('@dest' => $destination)));
   }
   unlink($zip);
+
+  // Find the file extracted.
+  // Workaround a drush bug where the first line is junk.
+  do {
+    $temp_library = array_shift($listing);
+  } while (substr($temp_library, -1) != '/');
 
   // Move to the correct location.
   drush_move_dir($temp_library, $library, TRUE);
