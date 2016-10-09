@@ -85,7 +85,7 @@ function drush_rrssb_plugin($destination = NULL, $only_if_missing = FALSE) {
   // Find the file extracted.
   // Workaround a drush bug where the first line is junk.
   do {
-    $temp_library = array_shift($listing);
+    $temp_library = $destination . '/' . array_shift($listing);
   } while (substr($temp_library, -1) != '/');
 
   // Move to the correct location.
