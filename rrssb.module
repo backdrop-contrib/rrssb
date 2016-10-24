@@ -284,38 +284,44 @@ function rrssb_form() {
   $form['rrssb_appearance']['size'] = array(
     '#type' => 'textfield',
     '#title' => t('Size'),
+    '#size' => 5,
     '#default_value' => $appearance['size'],
     '#description' => t('Size, as a proportion of default size set in CSS.'),
   );
   $form['rrssb_appearance']['shrink'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum size'),
+    '#size' => 5,
     '#default_value' => $appearance['shrink'],
     '#description' => t('Minimum size to shrink buttons to, as a proportion of original size.'),
   );
   $form['rrssb_appearance']['regrow'] = array(
     '#type' => 'textfield',
     '#title' => t('Extra row size'),
+    '#size' => 5,
     '#default_value' => $appearance['regrow'],
     '#description' => t('Maximum size of buttons after they have been forced to split onto extra rows of buttons, as a proportion of original size.'),
   );
   $form['rrssb_appearance']['minRows'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum rows'),
+    '#size' => 5,
     '#default_value' => $appearance['minRows'],
     '#description' => t('Minimum number of rows of buttons.  Set to a large value to create vertical layout.'),
   );
   $form['rrssb_appearance']['maxRows'] = array(
     '#type' => 'textfield',
     '#title' => t('Maximum rows'),
+    '#size' => 5,
     '#default_value' => $appearance['maxRows'],
     '#description' => t('Maximum number of rows of buttons.  If more rows would be needed, instead the labels are hidden.  Set to a large value to keep labels if at all possible.'),
   );
-  $form['rrssb_appearance']['maxPrefix'] = array(
+  $form['rrssb_appearance']['prefixReserve'] = array(
     '#type' => 'textfield',
-    '#title' => t('Maximum prefix width'),
-    '#default_value' => $appearance['maxPrefix'],
-    '#description' => t('Maximum width of prefix text, as a proportion of total width available for buttons.'),
+    '#title' => t('Prefix reserved width'),
+    '#size' => 5,
+    '#default_value' => $appearance['prefixReserve'],
+    '#description' => t('Proportion of total width reserved for prefix to be inline.'),
   );
 
   $form['rrssb_prefix'] = array(
@@ -362,6 +368,14 @@ function rrssb_form_submit() {
   // Clear cache.
   cache_clear_all('rrssb_buttons', 'cache');
 
+  // Delete auto-generated CSS.
+  rrssb_flush_caches();
+}
+
+/**
+ * Implements hook_flush_caches();
+ */
+function rrssb_flush_caches() {
   // Delete auto-generated CSS.
   if ($old = variable_get('rrssb_css_file')) {
     file_unmanaged_delete($old);
