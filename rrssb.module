@@ -9,7 +9,7 @@ require('rrssb.config.inc');
 /**
  * Define the RRSSB library location.
  */
-define('RRSSB_LIBRARY_MIN_VERSION', '0.2.0');
+define('RRSSB_LIBRARY_MIN_VERSION', '0.2.4');
 define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/rrssb-plus/releases');
 
 /**
@@ -137,7 +137,7 @@ function theme_rrssb_config_buttons($variables) {
 function theme_rrssb_button_list($variables) {
   $output = '<div class="rrssb">';
   if ($prefix = variable_get('rrssb_prefix')) {
-    $output .= '<span class="rrssb-prefix">' . t($prefix) . '</span>';
+    $output .= '<div class="rrssb-prefix">' . t($prefix) . '</div>';
   }
   $output .= '<ul class="rrssb-buttons">';
   $output .= drupal_render_children($variables['element']);
@@ -322,6 +322,13 @@ function rrssb_form() {
     '#size' => 5,
     '#default_value' => $appearance['prefixReserve'],
     '#description' => t('Proportion of total width reserved for prefix to be inline.'),
+  );
+  $form['rrssb_appearance']['prefixHide'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Prefix maximum width'),
+    '#size' => 5,
+    '#default_value' => $appearance['prefixHide'],
+    '#description' => t('Maximum prefix width as a proportion of total width before hiding prefix.'),
   );
 
   $form['rrssb_prefix'] = array(
