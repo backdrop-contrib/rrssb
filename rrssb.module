@@ -400,8 +400,8 @@ function rrssb_libraries_info() {
     'vendor url' => 'http://www.albanyweb.co.uk/rrssb-plus',
     'download url' => RRSSB_LIBRARY_URI,
     'version arguments' => array(
-      'file' => 'package.json',
-      'pattern' => '/"version": "([\d\.]+)"/',
+      'file' => 'VERSION.txt',
+      'pattern' => '/([\d\.x]+)/',
     ),
     'files' => array(
       'js' => array(
