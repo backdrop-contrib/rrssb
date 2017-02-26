@@ -254,7 +254,7 @@ function rrssb_form() {
         'visible' => array(":input[name='rrssb_follow']" => array('value' => $require_follow))
       );
     }
-    if (isset($button['follow_url'])) {
+    if (isset($button['follow_url']) && strpos($button['follow_url'], '[rrssb:username]') !== FALSE) {
       $form['rrssb_chosen'][$name]['username'] = array(
         '#type' => 'textfield',
         '#default_value' => isset($chosen[$name]['username']) ? $chosen[$name]['username'] : '',
@@ -374,6 +374,7 @@ function rrssb_form_validate($form, &$form_state) {
 function rrssb_form_submit() {
   // Clear cache.
   cache_clear_all('rrssb_buttons', 'cache');
+  cache_clear_all('rrssb:rrssb:', 'cache_block', TRUE);
 
   // Delete auto-generated CSS.
   rrssb_flush_caches();
