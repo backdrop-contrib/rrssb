@@ -33,4 +33,9 @@ function hook_rrssb_buttons() {
  * @param $buttons Existing button configration, see @hook_rrssb_buttons.
  */
 function hook_rrssb_buttons_alter(&$buttons) {
+  // Set the email button follow action to link to the simplenews subscribe page.
+  if (module_exists('simplenews')) {
+    $buttons['email']['follow_url'] = '/newsletter/subscriptions';
+    $buttons['email']['title_follow'] = 'subscribe';
+  }
 }

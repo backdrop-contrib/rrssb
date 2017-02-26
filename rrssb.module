@@ -579,6 +579,7 @@ function rrssb_settings($all = FALSE) {
   $buttons = module_invoke_all('rrssb_buttons');
   drupal_alter('rrssb_buttons', $buttons);
   $iconsDir = libraries_get_path('rrssb-plus') . '/icons';
+  $follow = variable_get('rrssb_follow');
 
   // Set some defaults.
   foreach ($buttons as $name => &$button) {
@@ -596,6 +597,10 @@ function rrssb_settings($all = FALSE) {
       $button['svg'] = file_get_contents($svgfile);
     }
 
+    if ($follow && isset($button['title_follow'])) {
+      $button['text'] = $button['title_follow'];
+    }
+
     // Default text to name.
     if (!isset($button['text'])) {
       $button['text'] = $name;
@@ -607,7 +612,7 @@ function rrssb_settings($all = FALSE) {
 
   if (!$all) {
     // Filter to only include enabled ones with a URL configured.
-    $key = variable_get('rrssb_follow') ? 'follow_url' : 'share_url';
+    $key = $follow ? 'follow_url' : 'share_url';
     $buttons = array_filter($buttons, function($button) use($key) { return $button['enabled'] && isset($button[$key]); });
     cache_set('rrssb_buttons', $buttons);
   }
