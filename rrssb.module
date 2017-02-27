@@ -330,6 +330,13 @@ function rrssb_form() {
     '#default_value' => $appearance['prefixHide'],
     '#description' => t('Maximum prefix width as a proportion of total width before hiding prefix.'),
   );
+  $form['rrssb_appearance']['alignRight'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Right-align buttons'),
+    '#size' => 5,
+    '#default_value' => $appearance['alignRight'],
+    '#description' => t('By default, buttons are left-aligned, with any padding added on the right.  Enable this to right-align, and instead pad on the left.'),
+  );
 
   $form['rrssb_prefix'] = array(
     '#type' => 'textfield',
