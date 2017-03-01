@@ -44,6 +44,12 @@ function rrssb_rrssb_buttons() {
       'color' => '#f60',
       'color_hover' => '#cc5200',
     ),
+    'join' => array(
+      'follow_url' => '/user/register',
+      'color' => '#dc143c',
+      'color_hover' => '#ad102f',
+      'popup' => FALSE,
+    ),
     'linkedin' => array(
       'share_url' => 'http://www.linkedin.com/shareArticle?mini=true&url=[rrssb:url]&title=[rrssb:title]',
       'follow_url' => 'https://www.linkedin.com/in/[rrssb:username]',
