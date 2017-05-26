@@ -33,7 +33,7 @@ function rrssb_rrssb_buttons() {
       'color_hover' => '#2b2b2b',
     ),
     'googleplus' => array(
-      'share_url' => 'https://plus.google.com/share?url=[rrssb:title] [rrssb:url]',
+      'share_url' => 'https://plus.google.com/share?url=[rrssb:url]',
       'follow_url' => 'https://plus.google.com/[rrssb:username]/posts',
       'color' => '#e93f2e',
       'color_hover' => '#ce2616',
