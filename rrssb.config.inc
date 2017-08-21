@@ -87,7 +87,7 @@ function rrssb_rrssb_buttons() {
       'color_hover' => '#22364a',
     ),
     'twitter' => array(
-      'share_url' => 'https://twitter.com//intent/tweet?text=[rrssb:title]&url=[rrssb:url]',
+      'share_url' => 'https://twitter.com/intent/tweet?text=[rrssb:title]&url=[rrssb:url]',
       'follow_url' => 'https://twitter.com/[rrssb:username]',
       'color' => '#26c4f1',
       'color_hover' => '#0eaad6',
