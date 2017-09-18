@@ -1,0 +1,100 @@
+{
+    "_config_name": "rrssb.settings",
+    "follow": "0",
+    "chosen": {
+        "twitter": {
+            "enabled": 1,
+            "username": "",
+            "weight": "-20"
+        },
+        "instagram": {
+            "enabled": 1,
+            "username": "",
+            "weight": "-19"
+        },
+        "facebook": {
+            "enabled": 1,
+            "username": "",
+            "weight": "-18"
+        },
+        "tumblr": {
+            "enabled": 1,
+            "username": "",
+            "weight": "-17"
+        },
+        "youtube": {
+            "enabled": 1,
+            "username": "",
+            "weight": "-16"
+        },
+        "linkedin": {
+            "enabled": 1,
+            "username": "",
+            "weight": "-15"
+        },
+        "pocket": {
+            "enabled": 1,
+            "weight": "-14"
+        },
+        "email": {
+            "enabled": 1,
+            "weight": "-13"
+        },
+        "print": {
+            "enabled": 1,
+            "weight": "-12"
+        },
+        "reddit": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-11"
+        },
+        "whatsapp": {
+            "enabled": 0,
+            "weight": "-10"
+        },
+        "vk": {
+            "enabled": 0,
+            "weight": "-9"
+        },
+        "pinterest": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-8"
+        },
+        "github": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-7"
+        },
+        "googleplus": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-6"
+        },
+        "join": {
+            "enabled": 0,
+            "weight": "-5"
+        },
+        "hackernews": {
+            "enabled": 0,
+            "weight": "-4"
+        },
+        "delicious": {
+            "enabled": 0,
+            "weight": "-3"
+        }
+    },
+    "appearance": {
+        "size": "",
+        "shrink": "",
+        "regrow": "",
+        "minRows": "",
+        "maxRows": "",
+        "prefixReserve": "",
+        "prefixHide": "",
+        "alignRight": 0
+    },
+    "prefix": "Share: ",
+    "image_tokens": "[node:field_image]|[rrssbsite:logo-url]"
+}

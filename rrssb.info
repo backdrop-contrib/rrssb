@@ -1,8 +1,6 @@
 name = Ridiculously Responsive Social Share Buttons
-description = Adds the ability to use the Ridiculously Responsive Social Share Buttons to your Drupal site.
-core = 7.x
+description = Adds the ability to use the Ridiculously Responsive Social Share Buttons (RRSSB) to your Backdrop site.
+backdrop = 1.x
+type = module
 package = RRSSB
 configure = admin/config/content/rrssb
-
-dependencies[] = libraries
-files[] = includes/rrssb.drush.inc

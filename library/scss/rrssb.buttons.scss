@@ -1,0 +1,44 @@
+// Ridiculously Responsive Social Sharing Buttons Plus
+// Per-button CSS.
+// Not required when using the Drupal CMS integration module, which generates its own file.
+
+// Button settings
+$rrssb-email: #0a88ff !default;
+$rrssb-facebook: #306199 !default;
+$rrssb-tumblr: #32506d !default;
+$rrssb-linkedin: #007bb6 !default;
+$rrssb-twitter: #26c4f1 !default;
+$rrssb-googleplus: #e93f2e !default;
+$rrssb-reddit: #8bbbe3 !default;
+$rrssb-youtube: #df1c31 !default;
+$rrssb-pinterest: #b81621 !default;
+$rrssb-pocket: #ed4054 !default;
+$rrssb-github: #444 !default;
+$rrssb-instagram: #125688 !default;
+$rrssb-hackernews: #ff6600 !default;
+$rrssb-delicious: #0b79e5 !default;
+$rrssb-vk: #4d71a9 !default;
+$rrssb-print: #8d98a2 !default;
+$rrssb-whatsapp: #43d854 !default;
+
+// Variable list for all social button colors to be iterated over.
+$social-list: (rrssb-email $rrssb-email, rrssb-facebook $rrssb-facebook, rrssb-tumblr $rrssb-tumblr, rrssb-linkedin $rrssb-linkedin, rrssb-twitter $rrssb-twitter, rrssb-googleplus $rrssb-googleplus, rrssb-youtube $rrssb-youtube, rrssb-reddit $rrssb-reddit, rrssb-pinterest $rrssb-pinterest, rrssb-pocket $rrssb-pocket, rrssb-github $rrssb-github, rrssb-instagram $rrssb-instagram, rrssb-delicious $rrssb-delicious, rrssb-vk $rrssb-vk, rrssb-hackernews $rrssb-hackernews,rrssb-whatsapp $rrssb-whatsapp, rrssb-print $rrssb-print);
+
+.rrssb {
+  .rrssb-buttons {
+
+    // Generate individual button classes for each item in $social-list.
+    @each $s-name in $social-list {
+      &.#{nth($s-name, 1)} {
+        a {
+          background-color: nth($s-name, 2);
+
+          &:hover {
+            background-color: darken(nth($s-name, 2), 10%);
+          }
+        }
+      }
+    }
+    // end @each directive
+  }
+}

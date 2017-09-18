@@ -1,10 +1,10 @@
 /**
  * @file
- * The RRSSB Drupal Behavior to configure settings.
+ * The RRSSB Backdrop Behavior to configure settings.
  */
 
 (function ($) {
-    Drupal.behaviors.rrssb = {
+    Backdrop.behaviors.rrssb = {
       attach: function(context, settings) {
         rrssbConfigAll(settings.rrssb);
       }
