@@ -35,12 +35,12 @@ Bugs and Feature requests should be reported in the
 ## Credits
 
 - Ported to Backdrop CMS by [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org).
-- Maintained for Drupal by [Derek Ahmedzai](https://github.com/derekahmedzai).
+- Maintained for Drupal by [Adam Shepherd](https://www.drupal.org/u/adamps).
 - Bundles and uses the enhanced [RRSSB+](https://github.com/AdamPS/rrssb-plus)
 library by [AlbanyWeb](https://www.albanyweb.co.uk/) (currently 0.4.0), which is 
 based on the original [RRSSB](https://github.com/kni-labs/rrssb) library by KNI Labs.
 
 ## License
 
-This project is GPL v2 software. See the [LICENSE.txt](https://github.com/backdrop-contrib/rrssb/blob/1.x-1.x/LICENSE.txt) file in this directory for
+This project is GPL v2 software. See the [LICENSE.txt](https://github.com/backdrop-contrib/rrssb/blob/1.x-2.x/LICENSE.txt) file in this directory for
 complete text.
