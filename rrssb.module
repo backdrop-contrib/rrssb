@@ -555,7 +555,7 @@ function rrssb_settings($all = FALSE) {
   }
 
   // Sort buttons by configured weight.
-  uasort($buttons, 'drupal_sort_weight');
+  backdrop_sort($buttons, array('weight'));
 
   if (!$all) {
     // Filter to only include enabled ones with a URL configured.
