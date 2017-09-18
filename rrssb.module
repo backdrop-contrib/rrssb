@@ -177,6 +177,7 @@ EOM;
 function rrssb_block_info() {
   $blocks['rrssb'] = array(
     'info' => t('Ridiculously Responsive Social Share Buttons'),
+    'description' => t('Add Ridiculously Responsive Social Share Buttons (RRSSB) to your Layout.'),
     'cache' => BACKDROP_CACHE_PER_PAGE,
   );
 

@@ -51,14 +51,13 @@ function rrssb_rrssb_buttons() {
       'popup' => FALSE,
     ),
     'linkedin' => array(
-      'share_url' => 'http://www.linkedin.com/shareArticle?mini=true&url=[rrssb:url]&title=[rrssb:title]',
+      'share_url' => 'https://www.linkedin.com/shareArticle?mini=true&url=[rrssb:url]&title=[rrssb:title]',
       'follow_url' => 'https://www.linkedin.com/in/[rrssb:username]',
       'color' => '#007bb6',
       'color_hover' => '#005983',
     ),
     'pinterest' => array(
-      // Encoding a slash prevents Pinterest's JS from "hijacking" the link - see http://stackoverflow.com/questions/11312923/custom-pinterest-button-for-custom-url-text-link-image-or-both.
-      'share_url' => 'http://pinterest.com/pin/create%2Fbutton/?url=[rrssb:url]&media=[rrssb:image]&description=[rrssb:title]',
+      'share_url' => 'https://pinterest.com/pin/create/button/?url=[rrssb:url]&media=[rrssb:image]&description=[rrssb:title]',
       'follow_url' => 'https://www.pinterest.com/[rrssb:username]',
       'color' => '#b81621',
       'color_hover' => '#8a1119',
@@ -75,14 +74,14 @@ function rrssb_rrssb_buttons() {
       'popup' => FALSE,
     ),
     'reddit' => array(
-      'share_url' => 'http://www.reddit.com/submit?url=[rrssb:url]&title=[rrssb:title]',
+      'share_url' => 'https://www.reddit.com/submit?url=[rrssb:url]&title=[rrssb:title]',
       'follow_url' => 'https://www.reddit.com/user/[rrssb:username]',
       'color' => '#8bbbe3',
       'color_hover' => '#62a3d9',
     ),
     'tumblr' => array(
-      'share_url' => 'http://tumblr.com/share?s=&amp;v=3&t=[rrssb:title]&u=[rrssb:url]',
-      'follow_url' => 'http://[rrssb:username].tumblr.com/',
+      'share_url' => 'https://tumblr.com/share?s=&amp;v=3&t=[rrssb:title]&u=[rrssb:url]',
+      'follow_url' => 'https://[rrssb:username].tumblr.com/',
       'color' => '#32506d',
       'color_hover' => '#22364a',
     ),
@@ -93,7 +92,7 @@ function rrssb_rrssb_buttons() {
       'color_hover' => '#0eaad6',
     ),
     'vk' => array(
-      'share_url' => 'http://vk.com/share.php?url=[rrssb:url]',
+      'share_url' => 'https://vk.com/share.php?url=[rrssb:url]',
       'color' => '#4d71a9',
       'color_hover' => '#3d5a86',
       'text' => 'vk.com',
