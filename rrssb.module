@@ -629,10 +629,10 @@ function rrssb_form_node_type_form_alter(&$form, &$form_state) {
       'js' => array(backdrop_get_path('module', 'rrssb') . '/js/rrssb.nodetype.js'),
     ),
   );
-  $form['rrssb']['show_' . $form['#node_type']->type] = array(
+  $form['rrssb']['show_rrssb'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show the social buttons?'),
-    '#default_value' => config_get('rrssb.settings', 'show_' . $form['#node_type']->type),
+    '#default_value' => config_get('node.type.' . $form['#node_type']->type, 'show_rrssb'),
   );
   $form['#submit'][] = 'rrssb_node_type_callback';
 }
@@ -641,7 +641,7 @@ function rrssb_form_node_type_form_alter(&$form, &$form_state) {
  * Custom handler to save rrssb info.
  */
 function rrssb_node_type_callback($form, &$form_state) {
-  config_set('rrssb.settings', 'show_' . $form_state['values']['type'], $form_state['values']['show_' . $form_state['values']['type']]);
+  config_set('node.type.' . $form_state['values']['type'], 'show_rrssb', $form_state['values']['show_rrssb']);
   field_info_cache_clear();
 }
 
@@ -651,7 +651,7 @@ function rrssb_node_type_callback($form, &$form_state) {
 function rrssb_node_prepare($node) {
   // @@TODO: Testing and code read suggests this function may not be needed - remove or add comment to explain.
   if (!isset($node->rrssb)) {
-    $node->rrssb = config_get("rrssb.settings", "show_{$node->type}");
+    $node->rrssb = config_get("node.type.{$node->type}", "show_rrssb");
   }
 }
 
@@ -659,7 +659,7 @@ function rrssb_node_prepare($node) {
  * Implements hook_node_view().
  */
 function rrssb_node_view($node, $view_mode, $langcode) {
-  if (config_get('rrssb.settings', 'show_' . $node->type) == 1) {
+  if (config_get('node.type.' . $node->type, 'show_rrssb') == 1) {
     $node->content['rrssb'] = rrssb_get_buttons($node);
   }
 }
@@ -670,7 +670,7 @@ function rrssb_node_view($node, $view_mode, $langcode) {
 function rrssb_field_extra_fields() {
   $extra = array();
   foreach (node_type_get_types() as $node_type) {
-    if (config_get('rrssb.settings', 'show_' . $node_type->type) == 1) {
+    if (config_get('node.type.' . $node_type->type, 'show_rrssb') == 1) {
       $extra['node'][$node_type->type]['display']['rrssb'] = array(
         'label' => t('Ridiculously Responsive Social Share Buttons'),
         'description' => t('A fake field to display Social buttons'),

@@ -1,18 +1,18 @@
 (function ($) {
 
 Backdrop.behaviors.rrssbSettingsSummary = {
+  // Provide the vertical tab summary.
   attach: function (context) {
-    $('fieldset#edit-rrssb', context).backdropSetSummary(function (context) {
+    var $context = $(context);
+    // RRSSB settings.
+    $context.find('fieldset#edit-rrssb').backdropSetSummary(function() {
       var vals = [];
-
-      // Inclusion select field.
-      if ($('#edit-show', context).is(':checked')) {
-        vals.push(Backdrop.t('Enabled'));
+      if ($context.find('input[name="show_rrssb"]:checked').length) {
+        vals.push(Backdrop.t('Show buttons'));
       }
       else {
-        vals.push(Backdrop.t('Disabled'));
+        vals.push(Backdrop.t('Hide buttons'));
       }
-        
       return vals.join(', ');
     });
   }
