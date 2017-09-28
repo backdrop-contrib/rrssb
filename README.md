@@ -14,6 +14,11 @@ where the visitor is encouraged to visit your social stream.
 
 ![RRSSB](https://github.com/backdrop-contrib/rrssb/blob/1.x-2.x/images/rrssb.png "RRSSB examples")
 
+## Installation
+
+- Install and enable this module using the official 
+  [Backdrop CMS instructions](https://backdropcms.org/guide/modules)
+
 ## Current Features
 
 - Checkbox on content type admin form to enable social buttons for nodes of that type.
