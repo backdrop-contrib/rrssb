@@ -57,8 +57,7 @@ function rrssb_rrssb_buttons() {
       'color_hover' => '#005983',
     ),
     'pinterest' => array(
-      // Encoding a slash prevents Pinterest's JS from "hijacking" the link - see http://stackoverflow.com/questions/11312923/custom-pinterest-button-for-custom-url-text-link-image-or-both.
-      'share_url' => 'http://pinterest.com/pin/create%2Fbutton/?url=[rrssb:url]&media=[rrssb:image]&description=[rrssb:title]',
+      'share_url' => 'http://pinterest.com/pin/create/link/?url=[rrssb:url]&media=[rrssb:image]&description=[rrssb:title]',
       'follow_url' => 'https://www.pinterest.com/[rrssb:username]',
       'color' => '#b81621',
       'color_hover' => '#8a1119',
