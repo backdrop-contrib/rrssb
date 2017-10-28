@@ -9,7 +9,7 @@ require('rrssb.config.inc');
 /**
  * Define the RRSSB library location.
  */
-define('RRSSB_LIBRARY_MIN_VERSION', '0.2.4');
+define('RRSSB_LIBRARY_MIN_VERSION', '0.5.0');
 define('RRSSB_LIBRARY_URI', 'https://github.com/AdamPS/rrssb-plus/releases');
 
 /**
