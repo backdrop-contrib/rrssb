@@ -6,6 +6,13 @@
  */
 
 /**
+ * Update to background images for buttons.
+ */
+function rrssb_update_1201() {
+  rrssb_flush_caches();
+}
+
+/**
  * Implements hook_uninstall().
 */
 function rrssb_uninstall() {

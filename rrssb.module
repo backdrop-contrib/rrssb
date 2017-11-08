@@ -166,7 +166,7 @@ function theme_rrssb_button($variables) {
   extract($variables);
   $class = $button['popup'] ? 'class="popup"' : '';
   $output = <<<EOM
-<li class="rrssb-$name"><a href="$link" $class><span class="rrssb-icon">$button[svg]</span><span class="rrssb-text">$button[text]</span></a></li>
+<li class="rrssb-$name"><a href="$link" $class><span class="rrssb-icon"></span><span class="rrssb-text">$button[text]</span></a></li>
 EOM;
   return $output;
 }
@@ -589,9 +589,15 @@ function rrssb_gen_css() {
   $css = "/* Auto-generated RRSSB CSS file. */\n";
   $settings = rrssb_settings();
   foreach ($settings as $name => $button) {
+    // Add a white fill.
+    $svg = str_replace('<path ', '<path fill="#FFF" ', $button['svg']);
+    // URL encode - only certain special characters are needed: <>#" and " can be safely swapped for '.
+    $svg = strtr($svg, array('<' => '%3C', '>' => '%3E', '#' => '%23', '"' => '\''));
+
     $css .= <<<EOM
 .rrssb-buttons li.rrssb-$name a { background-color: $button[color]; }
 .rrssb-buttons li.rrssb-$name a:hover { background-color: $button[color_hover]; }
+.rrssb-$name .rrssb-icon { background: url("data:image/svg+xml,$svg"); }
 
 EOM;
   }

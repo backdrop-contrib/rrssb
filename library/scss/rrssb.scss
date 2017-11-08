@@ -67,14 +67,6 @@ $rrssb-border: (100% - $rrssb-icon-ratio)/2;
     height: $rrssb-icon-ratio;
     /* Need explicit width for IE (default is 300px), same as height. */
     width: ($rrssb-icon-ratio/100%) * $rrssb-button-height;
-
-    svg {
-      height: 100%;
-    }
-
-    path {
-      fill: $rrssb-txt;
-    }
   }
 
   .rrssb-text {
@@ -104,13 +96,6 @@ $rrssb-border: (100% - $rrssb-icon-ratio)/2;
     .rrssb-icon {
       position: relative;
       left: $rrssb-border;
-      padding-right: $rrssb-border*2;
-      width: 100%;
-
-      svg {
-        /* Make the SVG shrink if the button is too narrow. */
-        width: 100%;
-      }
     }
 
     .rrssb-text {
