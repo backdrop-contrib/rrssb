@@ -26,7 +26,7 @@
      */
     window.rrssbConfigAll = function(settings) {
       $('.rrssb').each(function(){
-         $(this).rrssbConfig(settings);
+        $(this).rrssbConfig(settings);
       });
     }
 
@@ -62,7 +62,8 @@
      */
     var rrssbInit = function() {
       // Clone the prefix so we can find the width when the text does not wrap.
-      var $clone = $('.rrssb-prefix', this).clone().css({visibility: 'hidden', 'white-space': 'nowrap', display: 'inline'}).appendTo(this);
+      var $prefix = $('.rrssb-prefix', this);
+      var $clone = $prefix.length ? $prefix.clone().css({visibility: 'hidden', 'white-space': 'nowrap', display: 'inline'}).appendTo(this) : null;
 
       // Remove any whitespace between the buttons because the browser will display it, breaking the resizing.
       $('ul').contents().filter(function() { return this.nodeType === Node.TEXT_NODE; }).remove();
@@ -73,7 +74,7 @@
         buttons: 0,
         height: $('li', this).innerHeight(),
         fontSize: parseFloat($(this).css("font-size")),
-        prefixWidth: $clone.innerWidth(),
+        prefixWidth: $clone ? $clone.innerWidth() : 0,
       };
 
       $('li', this).each(function() {
@@ -82,7 +83,7 @@
       });
 
       $(this).data('orig', orig);
-      $clone.remove();
+      if ($clone) $clone.remove();
       return orig;
     }
 
@@ -128,6 +129,16 @@
       // Calculate widths.
       var availWidth = containerWidth / settings.shrink;
       var prefixWidth = orig.prefixWidth * settings.size;
+
+      // Hide the prefix entirely if it is too big.
+      if (prefixWidth > availWidth * settings.prefixHide) {
+        prefixWidth = 0;
+        $('.rrssb-prefix', this).css('display', 'none');
+      }
+      else {
+        $('.rrssb-prefix', this).css('display', '');
+      }
+
       var availWidthButtons = (prefixWidth <= containerWidth * settings.prefixReserve) ? availWidth - prefixWidth : availWidth;
       var buttonsPerRow = Math.floor(availWidthButtons / buttonWidth);
 
@@ -163,10 +174,6 @@
       var percWidth = Math.floor(10000 / buttonsPerRow) / 100;
       $('li', this).css('max-width', percWidth + '%');
 
-      // Hide the prefix entirely if it is too big.
-      var $prefixDisplay = (prefixWidth > availWidth * settings.prefixHide) ? 'none' : '';
-      $('.rrssb-prefix', this).css('display', $prefixDisplay);
-
       // Test if we can fit the prefix inline.  This may be the case even if we didn't reserve space for it.
       var desiredWidth = buttonWidth * buttonsPerRow + prefixWidth;
       if (desiredWidth > availWidth) {
@@ -175,13 +182,10 @@
       }
 
       // Fix font size.
-      var scale = Math.min(1, containerWidth / desiredWidth);
-      if (buttonsPerRow < maxButtonsPerRow) {
-        scale = Math.min(scale, settings.regrow);
-      }
-
+      var maxScale = (buttonsPerRow < maxButtonsPerRow) ? settings.regrow : 1
+      var scale = Math.min(maxScale, containerWidth / desiredWidth);
       // Reduce calculated value slightly as browser size calculations have some rounding and approximation.
-      var fontSize = orig.fontSize * settings.size * scale * 0.95;
+      var fontSize = orig.fontSize * settings.size * scale * 0.98;
       $(this).css('font-size', fontSize + 'px');
 
       // Fix prefix.
@@ -202,12 +206,11 @@
       }
 
       // Set padding to constrain buttons to desired width and they wrap evenly, for example 6 => 3+3 not 4+2.
-      // Use a percentage so a small container doesn't inherit a huge pad after a radical rescale.
-      // Allow a little extra to ensure rounding error doesn't accidentally spread buttons onto extra lines.
-      desiredWidth *= scale * 1.02;
       var paddingAttr = settings.alignRight ? 'padding-left' : 'padding-right';
-      if (containerWidth > desiredWidth) {
-        var padding = Math.floor(10000 * (containerWidth - desiredWidth) / containerWidth) / 100;
+      if (scale >= maxScale * 0.999) {
+        // Use a percentage so a small container doesn't inherit a huge pad after a radical rescale.
+        // Allow a little extra to ensure rounding error doesn't accidentally spread buttons onto extra lines.
+        var padding = Math.floor(10000 * (containerWidth - desiredWidth*scale*1.02) / containerWidth) / 100;
         $(this).css(paddingAttr, padding + '%');
       }
       else {
