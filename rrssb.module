@@ -42,6 +42,17 @@ function rrssb_permission() {
 }
 
 /**
+  * Implements hook_config_info().
+  */
+function rrssb_config_info() {
+  $prefixes['rrssb.settings'] = array(
+    'label' => t('RRSSB settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_tokens().
  *
  * These tokens are not advertised in hook_token_info because they are of no use outside this module.
