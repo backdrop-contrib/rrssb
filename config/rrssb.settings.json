@@ -1,6 +1,6 @@
 {
     "_config_name": "rrssb.settings",
-    "css_file": "",
+    "css_file": null,
     "follow": "0",
     "chosen": {
         "twitter": {
@@ -32,13 +32,27 @@
             "username": "",
             "weight": "-15"
         },
-        "delicious": {
-            "enabled": 0,
-            "weight": "-10"
-        },
         "pocket": {
             "enabled": 0,
             "weight": "-14"
+        },
+        "whatsapp": {
+            "enabled": 0,
+            "weight": "-13"
+        },
+        "pinterest": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-12"
+        },
+        "reddit": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-11"
+        },
+        "delicious": {
+            "enabled": 0,
+            "weight": "-10"
         },
         "print": {
             "enabled": 0,
@@ -56,19 +70,10 @@
             "enabled": 0,
             "weight": "-6"
         },
-        "whatsapp": {
-            "enabled": 0,
-            "weight": "-13"
-        },
         "github": {
             "enabled": 0,
             "username": "",
             "weight": "-5"
-        },
-        "pinterest": {
-            "enabled": 0,
-            "username": "",
-            "weight": "-12"
         },
         "googleplus": {
             "enabled": 0,
@@ -79,21 +84,16 @@
             "enabled": 0,
             "username": "",
             "weight": "-3"
-        },
-        "reddit": {
-            "enabled": 0,
-            "username": "",
-            "weight": "-11"
         }
     },
     "appearance": {
         "size": "1",
-        "shrink": ".5",
-        "regrow": "1",
+        "shrink": ".8",
+        "regrow": ".8",
         "minRows": "1",
-        "maxRows": "1",
-        "prefixReserve": "",
-        "prefixHide": ".2",
+        "maxRows": "2",
+        "prefixReserve": ".3",
+        "prefixHide": "2",
         "alignRight": 0
     },
     "prefix": "",
