@@ -416,7 +416,7 @@ function rrssb_library_info() {
   $libraries['rrssb-plus'] = array(
     'title' => 'Ridiculously Responsive Social Share Buttons Plus',
     'website' => 'https://github.com/AdamPS/rrssb-plus',
-    'version' => '0.5.2',
+    'version' => '0.5.3',
     'js' => array(
       backdrop_get_path('module', 'rrssb') . $jspath => array(),
     ),

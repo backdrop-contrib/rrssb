@@ -44,7 +44,7 @@ Bugs and Feature requests should be reported in the
 - Ported to Backdrop CMS by [Laryn Kragt Bakker](https://github.com/laryn) - [CEDC.org](https://cedc.org).
 - Maintained for Drupal by [Adam Shepherd](https://www.drupal.org/u/adamps).
 - Bundles and uses the enhanced [RRSSB+](https://github.com/AdamPS/rrssb-plus)
-library by [AlbanyWeb](https://www.albanyweb.co.uk/) (currently 0.5.2), which is
+library by [AlbanyWeb](https://www.albanyweb.co.uk/) (currently 0.5.3), which is
 based on the original [RRSSB](https://github.com/kni-labs/rrssb) library by KNI Labs.
 
 ## License
