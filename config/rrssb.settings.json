@@ -1,5 +1,6 @@
 {
     "_config_name": "rrssb.settings",
+    "css_file": "",
     "follow": "0",
     "chosen": {
         "twitter": {
@@ -7,94 +8,94 @@
             "username": "",
             "weight": "-20"
         },
-        "instagram": {
+        "facebook": {
             "enabled": 1,
             "username": "",
             "weight": "-19"
         },
-        "facebook": {
+        "linkedin": {
             "enabled": 1,
             "username": "",
             "weight": "-18"
         },
-        "tumblr": {
+        "email": {
             "enabled": 1,
-            "username": "",
             "weight": "-17"
         },
-        "youtube": {
-            "enabled": 1,
+        "instagram": {
+            "enabled": 0,
             "username": "",
             "weight": "-16"
         },
-        "linkedin": {
-            "enabled": 1,
+        "youtube": {
+            "enabled": 0,
             "username": "",
             "weight": "-15"
         },
+        "delicious": {
+            "enabled": 0,
+            "weight": "-10"
+        },
         "pocket": {
-            "enabled": 1,
+            "enabled": 0,
             "weight": "-14"
         },
-        "email": {
-            "enabled": 1,
+        "print": {
+            "enabled": 0,
+            "weight": "-9"
+        },
+        "join": {
+            "enabled": 0,
+            "weight": "-8"
+        },
+        "hackernews": {
+            "enabled": 0,
+            "weight": "-7"
+        },
+        "vk": {
+            "enabled": 0,
+            "weight": "-6"
+        },
+        "whatsapp": {
+            "enabled": 0,
             "weight": "-13"
         },
-        "print": {
-            "enabled": 1,
+        "github": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-5"
+        },
+        "pinterest": {
+            "enabled": 0,
+            "username": "",
             "weight": "-12"
+        },
+        "googleplus": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-4"
+        },
+        "tumblr": {
+            "enabled": 0,
+            "username": "",
+            "weight": "-3"
         },
         "reddit": {
             "enabled": 0,
             "username": "",
             "weight": "-11"
-        },
-        "whatsapp": {
-            "enabled": 0,
-            "weight": "-10"
-        },
-        "vk": {
-            "enabled": 0,
-            "weight": "-9"
-        },
-        "pinterest": {
-            "enabled": 0,
-            "username": "",
-            "weight": "-8"
-        },
-        "github": {
-            "enabled": 0,
-            "username": "",
-            "weight": "-7"
-        },
-        "googleplus": {
-            "enabled": 0,
-            "username": "",
-            "weight": "-6"
-        },
-        "join": {
-            "enabled": 0,
-            "weight": "-5"
-        },
-        "hackernews": {
-            "enabled": 0,
-            "weight": "-4"
-        },
-        "delicious": {
-            "enabled": 0,
-            "weight": "-3"
         }
     },
     "appearance": {
-        "size": "",
-        "shrink": "",
-        "regrow": "",
-        "minRows": "",
-        "maxRows": "",
+        "size": "1",
+        "shrink": ".5",
+        "regrow": "1",
+        "minRows": "1",
+        "maxRows": "1",
         "prefixReserve": "",
-        "prefixHide": "",
+        "prefixHide": ".2",
         "alignRight": 0
     },
-    "prefix": "Share: ",
+    "prefix": "",
     "image_tokens": "[node:field_image]|[rrssbsite:logo-url]"
 }
