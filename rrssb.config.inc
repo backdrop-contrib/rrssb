@@ -98,7 +98,7 @@ function rrssb_rrssb_buttons() {
       'text' => 'vk.com',
     ),
     'whatsapp' => array(
-      'share_url' => 'whatsapp://send?text=[rrssb:title] [rrssb:url]',
+      'share_url' => 'https://wa.me/?text=[rrssb:title]%20[rrssb:url]',
       'color' => '#43d854',
       'color_hover' => '#28c039',
     ),
