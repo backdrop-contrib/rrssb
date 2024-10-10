@@ -1,21 +1,48 @@
 <?php
-
 /**
  * @file
  * Contains install and update functions.
  */
 
 /**
- * Update to background images for buttons.
- */
-function rrssb_update_1201() {
-  rrssb_flush_caches();
-}
-
-/**
  * Implements hook_uninstall().
-*/
+ */
 function rrssb_uninstall() {
   // Remove auto-generated files.
   file_unmanaged_delete_recursive('public://rrssb');
+}
+
+/**
+ * Upgrade from Drupal 7
+ */
+function rrssb_update_1000() {
+  $config = config('rrssb.settings');
+
+  $config->set('rrssb_appearance', update_variable_get('rrssb_appearance', ''));
+  $config->set('rrssb_chosen', update_variable_get('rrssb_chosen', ''));
+  $config->set('rrssb_follow', update_variable_get('rrssb_follow', ''));
+  $config->set('rrssb_image_tokens', update_variable_get('rrssb_image_tokens', ''));
+  $config->set('rrssb_prefix', update_variable_get('rrssb_prefix', ''));
+
+  $config->save();
+
+  update_variable_del('rrssb_appearance');
+  update_variable_del('rrssb_chosen');
+  update_variable_del('rrssb_follow');
+  update_variable_del('rrssb_image_tokens');
+  update_variable_del('rrssb_prefix');
+
+  return t('Variables converted to configuration');
+}
+
+/**
+ * Update to background images for buttons.
+ */
+function rrssb_update_1201() {
+  // Copy of rrssb_flush_caches() from .module file since that file is not
+  // available at the bootstrap phase used for updates.
+  if ($old = config_get('rrssb.settings', 'css_file')) {
+    file_unmanaged_delete($old);
+  }
+  config_set('rrssb.settings', 'css_file', NULL);
 }
